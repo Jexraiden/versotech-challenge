@@ -38,7 +38,7 @@ class AuthenticationTest extends TestCase
         $this->assertAuthenticatedAs(User::where('email', 'bompreco@example.test')->firstOrFail());
         $this->assertNotSame($oldSessionId, session()->getId());
         $this->assertSame('preserved', session('marker'));
-        $this->get(route('catalog.index'))->assertInertia(fn (Assert $page) => $page->component('Welcome'));
+        $this->get(route('catalog.index'))->assertInertia(fn (Assert $page) => $page->component('Catalog/Index'));
         $this->assertSame(1, auth()->user()->company->id);
     }
 

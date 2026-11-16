@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Catalog\CatalogController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::middleware('guest')->group(function (): void {
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])
@@ -21,9 +21,6 @@ Route::middleware('auth')->group(function (): void {
         return redirect()->route('catalog.index');
     })->name('home');
 
-    Route::get('/catalog', function () {
-        return Inertia::render('Welcome', [
-            'appName' => config('app.name'),
-        ]);
-    })->name('catalog.index');
+    Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
+    Route::get('/catalog/{product}', [CatalogController::class, 'show'])->name('catalog.show');
 });

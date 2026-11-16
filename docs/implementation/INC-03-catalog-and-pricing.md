@@ -1,7 +1,7 @@
 # INC-03 — Catálogo e precificação
 
-**Status:** Não iniciado  
-**Fase atual:** Planejamento  
+**Status:** Aprovado
+**Fase atual:** Commit manual pendente
 **Dependências:** INC-02 aprovado para autenticação e contexto da empresa; depende dos dados/migrations de INC-01.
 
 **Especificações de UI/UX e frontend:** [produto](../design/product.md), [catálogo](../design/screens/catalog.md), [detalhe do produto](../design/screens/product-detail.md), [fluxos de usuário](../design/user-flows.md) (catálogo, busca e detalhe informativo), [design system](../design/design-system.md) e [diretrizes frontend](../design/frontend-guidelines.md). `roadmap.md` delimita imagens, grade e compra a partir do detalhe como fora do MVP.
@@ -20,11 +20,11 @@ Busca por nome/SKU/EAN; categorias e paginação; produto inativo/sem preço nã
 
 ### Critérios de aceite de UI/UX
 
-- [ ] Exibe catálogo em lista compacta textual, sem imagens, com código, nome, preço aplicável, disponibilidade, quantidade e ação de adicionar; não depende de abrir detalhe para comprar.
-- [ ] Busca por nome parcial, SKU ou EAN, filtro por categoria e paginação estão disponíveis na UI; preservam contexto e apresentam estados de carregamento, vazio, sem resultados, indisponível e erro.
-- [ ] Página de detalhe apresenta as informações disponíveis do produto, sem ação de adicionar ao carrinho; a compra permanece na lista do catálogo.
-- [ ] Em desktop, compra permanece na linha; em smartphone, os dados e controles formam blocos sem rolagem horizontal.
-- [ ] Informação comercial reflete a empresa autenticada; preço e disponibilidade não são apresentados como definitivos além dos dados retornados pelo backend.
+- [x] Exibe catálogo em lista compacta textual, sem imagens, com código, nome, preço aplicável, disponibilidade e quantidade. A ação funcional de adicionar e a compra pela lista pertencem ao INC-04.
+- [x] Busca por nome parcial, SKU ou EAN, filtro por categoria e paginação estão disponíveis na UI; preservam contexto e apresentam estados de carregamento, vazio, sem resultados, indisponível e erro.
+- [x] Página de detalhe apresenta as informações disponíveis do produto sem ação de adicionar ao carrinho. A ação funcional de compra pela lista será entregue no INC-04.
+- [x] Em desktop, informações e controles permanecem na linha; em smartphone, formam blocos sem rolagem horizontal.
+- [x] Informação comercial reflete a empresa autenticada; preço e disponibilidade são apresentados como dados retornados pelo backend.
 
 ## Fora do escopo
 
@@ -36,19 +36,19 @@ Verificar N+1, vazamento de preços, promoções futuras/expiradas, limites de d
 
 ## Evidências para aprovação
 
-- [ ] Implementação concluída e explicada
-- [ ] Revisão adversarial em sessão separada, com achados classificados por severidade
-- [ ] Achados críticos/altos corrigidos ou explicitamente aceitos pelo desenvolvedor
-- [ ] Revisão manual aprovada
-- [ ] Testes formais executados com comandos e resultados registrados
-- [ ] Critérios de aceitação validados
-- [ ] Aprovação explícita do desenvolvedor
+- [x] Implementação concluída e explicada
+- [x] Revisão adversarial realizada; revisão nesta conversa, sem sessão separada
+- [x] Achado High no cálculo promocional corrigido; revisão subsequente não encontrou novos defeitos
+- [x] Revisão manual aprovada pelo desenvolvedor, incluindo os ajustes visuais solicitados
+- [x] Testes formais executados com comando e resultado registrados
+- [x] Critérios de aceitação do INC-03 validados; ação funcional de adicionar transferida para INC-04
+- [x] Aprovação explícita do desenvolvedor recebida em 16/11/2026
 - [ ] Commit manual após aprovação
 
 ## Registro da execução
 
-**Arquivos alterados:** _preencher_  
-**Achados da revisão:** _preencher_  
-**Testes e resultados:** _preencher_  
-**Pendências / decisões:** _preencher_  
-**Aprovação:** _pendente_
+**Arquivos alterados:** controller e consultas de catálogo, serviço de precificação, modelo de produto/tabela de preço, rotas, páginas e estilos do catálogo, testes de autenticação, catálogo e precificação; este registro.
+**Achados da revisão:** revisão adversarial encontrou erro de escala percentual que podia gerar preço negativo. Corrigido com cálculo na escala correta e validação de preço/desconto; revisão subsequente não encontrou novos defeitos. Revisões ocorreram nesta conversa, sem sessão separada.
+**Testes e resultados:** `docker compose run --rm --no-deps laravel.test php artisan test` — 40 testes passaram, 357 assertions, duração 25,39s. A primeira execução revelou uma asserção incorreta no novo teste de busca; o teste foi ajustado e a execução final passou. `git diff --check` sem apontamentos.
+**Pendências / decisões:** ação funcional de adicionar ao carrinho transferida para INC-04 e refletida no respectivo critério; o botão no catálogo permanece desabilitado até esse incremento. Ajustes recentes de paginação e cabeçalho não foram cobertos pela suíte PHP nem verificados por build frontend. Commit manual pendente.
+**Aprovação:** INC-03 aprovado explicitamente pelo desenvolvedor em 16/11/2026.
