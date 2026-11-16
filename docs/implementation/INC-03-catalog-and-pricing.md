@@ -43,12 +43,12 @@ Verificar N+1, vazamento de preços, promoções futuras/expiradas, limites de d
 - [x] Testes formais executados com comando e resultado registrados
 - [x] Critérios de aceitação do INC-03 validados; ação funcional de adicionar transferida para INC-04
 - [x] Aprovação explícita do desenvolvedor recebida em 16/11/2026
-- [ ] Commit manual após aprovação
+- [x] Commit manual após aprovação (`4045fe7` — `feat: implement catalog and pricing for INC-03`)
 
 ## Registro da execução
 
 **Arquivos alterados:** controller e consultas de catálogo, serviço de precificação, modelo de produto/tabela de preço, rotas, páginas e estilos do catálogo, testes de autenticação, catálogo e precificação; este registro.
 **Achados da revisão:** revisão adversarial encontrou erro de escala percentual que podia gerar preço negativo. Corrigido com cálculo na escala correta e validação de preço/desconto; revisão subsequente não encontrou novos defeitos. Revisões ocorreram nesta conversa, sem sessão separada.
 **Testes e resultados:** `docker compose run --rm --no-deps laravel.test php artisan test` — 40 testes passaram, 357 assertions, duração 25,39s. A primeira execução revelou uma asserção incorreta no novo teste de busca; o teste foi ajustado e a execução final passou. `git diff --check` sem apontamentos.
-**Pendências / decisões:** ação funcional de adicionar ao carrinho transferida para INC-04 e refletida no respectivo critério; o botão no catálogo permanece desabilitado até esse incremento. Ajustes recentes de paginação e cabeçalho não foram cobertos pela suíte PHP nem verificados por build frontend. Commit manual pendente.
+**Pendências / decisões:** ação funcional de adicionar ao carrinho transferida para INC-04 e refletida no respectivo critério; o botão no catálogo permanece desabilitado até esse incremento. Ajustes recentes de paginação e cabeçalho não foram cobertos pela suíte PHP nem verificados por build frontend. Sem pendências de commit.
 **Aprovação:** INC-03 aprovado explicitamente pelo desenvolvedor em 16/11/2026.

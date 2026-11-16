@@ -7,6 +7,7 @@ use App\Models\PriceTableItem;
 use App\Models\Product;
 use App\Services\CatalogQueries;
 use App\Services\ProductPricing;
+use App\Services\SessionCart;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ class CatalogController extends Controller
     public function __construct(
         private readonly ProductPricing $pricing,
         private readonly CatalogQueries $catalogQueries,
+        private readonly SessionCart $cart,
     ) {}
 
     public function index(Request $request): Response
@@ -67,6 +69,7 @@ class CatalogController extends Controller
             'categories' => $this->catalogQueries->categoriesForPriceTable($company->price_table_id),
             'filters' => ['search' => $filters['search'] ?? '', 'category' => $filters['category'] ?? ''],
             'companyName' => $company->trade_name,
+            'cart' => $this->cart->present($request, $request->user()),
         ]);
     }
 

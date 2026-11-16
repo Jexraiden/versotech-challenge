@@ -24,4 +24,9 @@ class Product extends Model
     {
         return $this->hasMany(Promotion::class);
     }
+
+    public function priceTableItems(): HasMany
+    {
+        return $this->hasMany(PriceTableItem::class);
+    }
 }

@@ -41,12 +41,12 @@ Testar IDOR, troca de usuário, session fixation, CSRF, brute force e redirecion
 - [x] Testes formais concluídos e aprovados pelo desenvolvedor; resultado final detalhado não registrado nesta conversa
 - [x] Critérios de aceitação validados pelo desenvolvedor
 - [x] Aprovação explícita do desenvolvedor recebida em 16/11/2026
-- [ ] Commit manual após aprovação
+- [x] Commit manual após aprovação (`87dd078` — `feat(auth): implement login and company access flow`)
 
 ## Registro da execução
 
 **Arquivos alterados:** autenticação, middleware Inertia, configuração de middleware, telas e estilos de login/catálogo, configuração, rotas, testes de autenticação, README e este registro.  
 **Achados da revisão:** revisão adversarial aprovada pelo desenvolvedor; relatório não fornecido para transcrição.  
 **Testes e resultados:** testes formais concluídos e aprovados pelo desenvolvedor; comando/saída final não fornecidos. Uma execução anterior local falhou por ausência do driver SQLite e o Sail estava indisponível naquele ambiente.  
-**Pendências / decisões:** commit manual pendente.  
+**Pendências / decisões:** sem pendências de commit.
 **Aprovação:** INC-02 aprovado explicitamente pelo desenvolvedor em 16/11/2026.

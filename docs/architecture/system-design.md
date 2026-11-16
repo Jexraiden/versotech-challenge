@@ -1,6 +1,6 @@
 # System Design — Versotech B2B Commerce
 
-**Status:** Implementação parcial — INC-01 em revisão
+**Status:** Implementação parcial — INC-04 em revisão adversarial
 **Atualizado em:** 15/11/2026
 **Requisitos:** [requirements.md](../project/requirements.md)
 **Decisões:** [ADRs](../adr/)
@@ -223,4 +223,4 @@ Para a demonstração, usar os três usuários de teste, destacando as diferenç
 | Autenticação simplificada e riscos | [ADR-005](../adr/005-auth-security-scope.md) |
 | Ausência de imagens no MVP | [ADR-006](../adr/006-product-images.md) |
 
-**Estado da implementação:** INC-01 fornece a fundação Laravel/Sail, migrations e seeders reproduzíveis dos dados comerciais e usuários demo, conversão decimal exata para centavos e a página inicial Inertia. INC-02 implementa autenticação web por sessão, limitação de tentativas e contexto da empresa autenticada. INC-03 implementa catálogo e detalhe via Inertia, busca, filtros, paginação e precificação por tabela/atacado/promoção, com cálculos em centavos; a ação funcional de adicionar pela lista pertence ao INC-04. INC-04 e seguintes permanecem pendentes.
+**Estado da implementação:** INC-01 fornece a fundação Laravel/Sail, migrations e seeders reproduzíveis dos dados comerciais e usuários demo, conversão decimal exata para centavos e a página inicial Inertia. INC-02 implementa autenticação web por sessão, limitação de tentativas e contexto da empresa autenticada. INC-03 implementa catálogo e detalhe via Inertia, busca, filtros, paginação e precificação por tabela/atacado/promoção, com cálculos em centavos. INC-04 implementa carrinho em sessão, adição pela lista do catálogo e recálculo de preço/estoque no servidor; está em revisão adversarial e ainda não foi formalmente aprovado. INC-05 e INC-06 permanecem pendentes.

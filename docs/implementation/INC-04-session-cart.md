@@ -1,7 +1,7 @@
 # INC-04 — Carrinho em sessão
 
-**Status:** Não iniciado  
-**Fase atual:** Planejamento  
+**Status:** Aprovado pelo desenvolvedor — commit manual pendente
+**Fase atual:** Aprovação concluída
 **Dependências:** INC-03 aprovado para catálogo e precificação; INC-02 aprovado para isolamento da sessão por identidade.
 
 **Especificações de UI/UX e frontend:** [carrinho](../design/screens/cart.md), [catálogo](../design/screens/catalog.md) (adição e barra fixa), [fluxos de usuário](../design/user-flows.md), [design system](../design/design-system.md) e [diretrizes frontend](../design/frontend-guidelines.md).
@@ -37,18 +37,21 @@ Verificar manipulação de quantidades, produto desativado, estoque reduzido, tr
 ## Evidências para aprovação
 
 - [ ] Implementação concluída e explicada
-- [ ] Revisão adversarial em sessão separada, com achados classificados por severidade
+- [x] Revisão adversarial dispensada pelo desenvolvedor para este ciclo
 - [ ] Achados críticos/altos corrigidos ou explicitamente aceitos pelo desenvolvedor
-- [ ] Revisão manual aprovada
-- [ ] Testes formais executados com comandos e resultados registrados
-- [ ] Critérios de aceitação validados
-- [ ] Aprovação explícita do desenvolvedor
+- [x] Revisão manual aprovada pelo desenvolvedor
+- [x] Testes formais executados com comandos e resultados registrados
+- [x] Critérios de aceitação revisados pelo desenvolvedor e suíte automatizada aprovada
+- [x] Aprovação explícita do desenvolvedor
 - [ ] Commit manual após aprovação
 
 ## Registro da execução
 
-**Arquivos alterados:** _preencher_  
-**Achados da revisão:** _preencher_  
-**Testes e resultados:** _preencher_  
-**Pendências / decisões:** _preencher_  
-**Aprovação:** _pendente_
+**Arquivos alterados:** controller e serviço do carrinho, rotas web, middleware Inertia, modelo Product, páginas e estilos de catálogo/carrinho e `tests/Feature/SessionCartTest.php`; há também alterações não commitadas em registros de INC-02 e INC-03.
+
+**Achados da revisão:** nenhum defeito funcional concreto identificado na inspeção inicial. Achado Low: status e registro deste documento estavam desatualizados; corrigidos. Cenários de alterações comerciais após adicionar ao carrinho permanecem como lacuna de cobertura identificada. As alterações visuais posteriores ainda não passaram por nova revisão adversarial.
+
+**Testes e resultados:** validação formal após revisão manual: `docker compose run --rm --no-deps laravel.test php artisan test` — 48 testes passaram, 474 assertions, duração 33,27s; `npm run typecheck` — passou; `npm run build` — passou. A suíte PHP usa SQLite em memória conforme `phpunit.xml`; PostgreSQL não foi validado nesta execução. O desenvolvedor informou que revisou manualmente os ajustes visuais. Por autorização explícita do desenvolvedor em 16/11/2026, a nova revisão adversarial foi dispensada neste ciclo por os últimos ajustes serem exclusivamente de frontend.
+
+**Pendências / decisões:** revisão adversarial dispensada por autorização explícita do desenvolvedor em 16/11/2026. Testes formais concluídos; integração com PostgreSQL não verificada. Aprovação explícita do INC-04 recebida em 16/11/2026. Commit manual pendente.
+**Aprovação:** aprovada pelo desenvolvedor em 16/11/2026; commit manual pendente.
