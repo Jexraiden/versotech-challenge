@@ -301,9 +301,9 @@ O resultado verificável foi a fundação funcionando, com importação reproduz
 
 **Meta:** implementar a maior parte do fluxo funcional, priorizando regras de negócio sobre refinamentos visuais.
 
-- [ ] INC-02: login, logout e autorização por empresa.
-- [ ] INC-03: catálogo, busca, detalhe, preços por empresa, atacado e promoções.
-- [ ] INC-04: carrinho em sessão, edição de quantidades e recálculo de preços.
+- [x] INC-02: login, logout e autorização por empresa.
+- [x] INC-03: catálogo, busca, detalhe, preços por empresa, atacado e promoções.
+- [x] INC-04: carrinho em sessão, edição de quantidades e recálculo de preços.
 - [ ] Iniciar INC-05: condições de pagamento, validação de estoque e crédito.
 - [ ] Aplicar revisão adversarial e revisão manual aos incrementos concluídos.
 - [ ] Executar os testes pertinentes e registrar as limitações.

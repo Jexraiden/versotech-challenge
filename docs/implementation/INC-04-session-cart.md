@@ -1,7 +1,7 @@
 # INC-04 — Carrinho em sessão
 
-**Status:** Aprovado pelo desenvolvedor — commit manual pendente
-**Fase atual:** Aprovação concluída
+**Status:** Concluído — aprovado pelo desenvolvedor; commit manual pendente
+**Fase atual:** Concluída
 **Dependências:** INC-03 aprovado para catálogo e precificação; INC-02 aprovado para isolamento da sessão por identidade.
 
 **Especificações de UI/UX e frontend:** [carrinho](../design/screens/cart.md), [catálogo](../design/screens/catalog.md) (adição e barra fixa), [fluxos de usuário](../design/user-flows.md), [design system](../design/design-system.md) e [diretrizes frontend](../design/frontend-guidelines.md).
