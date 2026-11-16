@@ -98,6 +98,8 @@ Uma tarefa só está concluída quando:
 
 Consulte `docs/implementation/README.md` e o arquivo `INC-XX` correspondente. Execute as fases em ordem: implementação → revisão adversarial (preferencialmente sessão nova, somente leitura) → correções e revisão manual → validação formal de testes → aprovação humana → commit manual.
 
+Ao implementar um incremento, use a skill `.agents/skills/implement-increment/SKILL.md` para análise, planejamento e execução dos gates. Apresente o plano e aguarde aprovação explícita antes de implementar.
+
 - Não avançar de fase sem autorização do desenvolvedor.
 - Implementação pode criar testes, mas não declarar incremento aprovado.
 - Revisão adversarial deve buscar defeitos concretos, com evidências, sem corrigir automaticamente.
