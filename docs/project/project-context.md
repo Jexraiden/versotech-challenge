@@ -37,8 +37,9 @@ O Sail já utiliza Docker Compose. Uma configuração Compose independente, adeq
 Requisito → critério de aceitação → implementação → testes → revisão → commit.
 
 Documentos principais:
-- `docs/requirements.md`
-- `docs/system-design.md`
+
+- `docs/project/requirements.md`
+- `docs/architecture/system-design.md`
 - `docs/adr/`
 - `AGENTS.md`
 - `README.md` (a ser preenchido com instalação, execução, testes e demonstração)

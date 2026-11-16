@@ -1,8 +1,8 @@
 # System Design — Versotech B2B Commerce
 
-**Status:** Proposto (baseline do MVP)  
-**Atualizado em:** 15/11/2026  
-**Requisitos:** [requirements.md](../project/requirements.md)  
+**Status:** Implementação parcial — INC-01 em revisão
+**Atualizado em:** 15/11/2026
+**Requisitos:** [requirements.md](../project/requirements.md)
 **Decisões:** [ADRs](../adr/)
 
 > Este documento descreve a arquitetura proposta. À medida que o código for implementado, atualizar componentes, modelo de dados e fluxos para refletir o comportamento **efetivamente entregue**. Não apresentar decisões propostas como já implementadas.
@@ -54,15 +54,15 @@ erDiagram
 ```
 
 | Entidade | Campos relevantes |
-|---|---|
-| `companies` | id, name, tax_id, price_table_id, credit_limit_cents, credit_used_cents, is_blocked, block_reason, address fields |
+| --- | --- |
+| `companies` | id (preservado da origem), tax_id, legal_name, trade_name, city, state, price_table_id, credit_limit_cents, credit_used_cents, is_blocked, block_reason nullable |
 | `users` | id, company_id, name, email, password (hash gerenciado pelo Laravel) |
-| `products` | id (preservar identificador de origem), sku, ean, name, description nullable, brand, category, is_active |
-| `inventories` | product_id único, quantity |
-| `price_tables` | id, code único |
+| `products` | id (preservado da origem), sku, ean, name, description nullable, brand, category, is_active |
+| `inventories` | id BIGINT PK autoincrementável, product_id BIGINT FK único, quantity; uma linha de estoque por produto |
+| `price_tables` | code (chave primária textual), description |
 | `price_table_items` | price_table_id, product_id, regular_price_cents, wholesale_price_cents nullable, wholesale_min_qty nullable |
-| `promotions` | id, product_id, discount_percent (`NUMERIC`), starts_on, ends_on |
-| `payment_terms` | code, minimum_amount_cents, surcharge_percent (`NUMERIC`), is_credit |
+| `promotions` | id (preservado da origem), product_id, discount_percent (`NUMERIC(7,4)`), starts_on, ends_on |
+| `payment_terms` | code (chave primária textual), description, minimum_amount_cents, surcharge_percent (`NUMERIC(7,4)`), is_credit |
 | `orders` | id, company_id, user_id, payment_term_id, checkout_key único, status, subtotal_cents, surcharge_cents, total_cents |
 | `order_items` | order_id, product_id, sku_snapshot, name_snapshot, quantity, unit_price_cents, line_total_cents |
 
@@ -79,8 +79,7 @@ erDiagram
 - Definir arredondamento **half-up** para valores não negativos: preço unitário promocional arredondado para centavos antes de multiplicar pela quantidade; acréscimo do pagamento calculado sobre o subtotal e arredondado uma vez para centavos. Não arredondar repetidamente no frontend.
 - Ao importar números decimais dos JSONs, converter de forma exata para centavos (preferir representação textual/decimal, sem multiplicação por `float`).
 
-
-**Dados de entrada:** importar os seis JSONs de `data/` por seeders/comandos reproduzíveis. Criar três usuários de demonstração vinculados às três empresas. O conjunto de dados não contém imagens ou URLs de imagens.
+**Dados de entrada:** importar os seis JSONs de `data/` por seeders reproduzíveis. Preservar os IDs originais de empresas, produtos e promoções; após inserir IDs explícitos, sincronizar as sequências PostgreSQL correspondentes. Para estoque, mapear `produto_id` da origem para `inventories.product_id`; `inventories.id` é gerado pelo banco. Converter os números JSON para strings decimais antes da conversão de dinheiro para centavos, rejeitando frações de centavo em vez de arredondá-las na importação. Na reexecução, atualizar campos originados dos JSONs sem restaurar `inventories.quantity` nem `companies.credit_used_cents` já existentes. Criar três usuários de demonstração vinculados às três empresas. O conjunto de dados não contém imagens ou URLs de imagens.
 
 ## 4. Autenticação e isolamento
 
@@ -114,6 +113,7 @@ Entradas: empresa, produto, quantidade e data de referência.
 5. Calcular o preço unitário promocional em centavos com arredondamento half-up; selecionar o menor preço unitário elegível em centavos e multiplicar pela quantidade para obter `line_total_cents`.
 
 Regras:
+
 - Sem fallback para outra tabela de preço.
 - Promoções expiradas ou futuras não participam do cálculo.
 - Se houver promoções simultâneas, escolher o menor preço elegível.
@@ -127,7 +127,7 @@ Regras:
 **Condições de pagamento:**
 
 | Código | Elegibilidade | Acréscimo | Crédito |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `PIX` | Subtotal positivo | 0% | Não |
 | `BOL28` | Subtotal ≥ R$ 300,00 | 0% | Sim |
 | `BOL2856` | Subtotal ≥ R$ 1.000,00 | 2,5% | Sim |
@@ -193,6 +193,7 @@ Os JSONs fornecidos não incluem imagens nem caminhos/URLs. **Não haverá image
 **Desenvolvimento:** Laravel Sail + PostgreSQL, com migrations e seeders reproduzíveis. Vite serve os assets de desenvolvimento.
 
 **Falhas relevantes:**
+
 - Estoque insuficiente: rejeitar sem alteração parcial.
 - Crédito insuficiente ou empresa bloqueada: rejeitar antes de persistir efeitos.
 - Alteração de preço desde o carrinho: recalcular no checkout e apresentar os valores atuais.
@@ -204,6 +205,7 @@ Os JSONs fornecidos não incluem imagens nem caminhos/URLs. **Não haverá image
 ## 10. Estratégia de testes
 
 Priorizar testes automatizados para:
+
 1. Preços por tabela e produto sem preço.
 2. Faixa de atacado e menor preço com promoção.
 3. Isolamento de empresas e bloqueio.
@@ -216,9 +218,9 @@ Para a demonstração, usar os três usuários de teste, destacando as diferenç
 ## 11. Decisões e estado de implementação
 
 | Decisão | Registro |
-|---|---|
+| --- | --- |
 | Sessão web sem Sanctum | [ADR-004](../adr/004-web-auth-without-sanctum.md) |
 | Autenticação simplificada e riscos | [ADR-005](../adr/005-auth-security-scope.md) |
 | Ausência de imagens no MVP | [ADR-006](../adr/006-product-images.md) |
 
-**Estado inicial:** arquitetura proposta, ainda não verificada contra implementação. Atualizar esta seção à medida que o MVP for entregue.
+**Estado da implementação:** o INC-01 adiciona a fundação Laravel/Sail, as migrations dos dados de origem e usuários, seeders reproduzíveis, conversão decimal exata para centavos e a página inicial React via Inertia. O incremento ainda aguarda revisão adversarial, revisão manual e validação formal. Catálogo, autenticação, carrinho e pedidos permanecem nos incrementos seguintes.
