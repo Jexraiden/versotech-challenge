@@ -1,7 +1,7 @@
 # INC-01 — Fundação e importação dos dados
 
-**Status:** Não iniciado  
-**Fase atual:** Planejamento  
+**Status:** Aprovado pelo desenvolvedor; commit manual pendente  
+**Fase atual:** Aprovação concluída  
 **Dependências:** Nenhuma
 
 ## Objetivo
@@ -26,19 +26,19 @@ Verificar campos opcionais, datas, arredondamento de importação, unicidade de 
 
 ## Evidências para aprovação
 
-- [ ] Implementação concluída e explicada
-- [ ] Revisão adversarial em sessão separada, com achados classificados por severidade
-- [ ] Achados críticos/altos corrigidos ou explicitamente aceitos pelo desenvolvedor
-- [ ] Revisão manual aprovada
-- [ ] Testes formais executados com comandos e resultados registrados
-- [ ] Critérios de aceitação validados
-- [ ] Aprovação explícita do desenvolvedor
+- [x] Implementação concluída e explicada
+- [x] Revisão adversarial concluída; problemas identificados corrigidos, conforme informado pelo desenvolvedor
+- [x] Achados identificados corrigidos, conforme informado pelo desenvolvedor
+- [x] Revisão manual aprovada pelo desenvolvedor
+- [x] Testes formais executados com comandos e resultados registrados
+- [x] Critérios de aceitação validados
+- [x] Aprovação explícita do desenvolvedor (16/11/2026)
 - [ ] Commit manual após aprovação
 
 ## Registro da execução
 
-**Arquivos alterados:** _preencher_  
-**Achados da revisão:** _preencher_  
-**Testes e resultados:** _preencher_  
-**Pendências / decisões:** _preencher_  
-**Aprovação:** _pendente_
+**Arquivos alterados:** implementação do INC-01 já presente no workspace antes da validação formal; nenhum arquivo de aplicação foi alterado durante a validação.  
+**Achados da revisão:** revisão adversarial concluída e problemas identificados corrigidos, conforme informado pelo desenvolvedor.  
+**Testes e resultados:** `docker compose exec -T laravel.test php artisan migrate --force` — sem migrations pendentes; duas execuções de `docker compose exec -T laravel.test php artisan db:seed --force` — sucesso; suíte no Sail — 15 testes e 50 asserções passaram; `npm run typecheck` — sucesso; `npm run build` — sucesso; requisição local — HTTP 200 com componente Inertia `Welcome`. Preservação de estoque e crédito confirmada com valores-sentinela dentro de transação revertida.  
+**Pendências / decisões:** commit manual pendente. A execução de `php artisan test` no host falhou por ausência do driver SQLite e uma asserção Inertia; a suíte passou no container Sail.  
+**Aprovação:** aprovada explicitamente pelo desenvolvedor em 16/11/2026; commit não realizado.
