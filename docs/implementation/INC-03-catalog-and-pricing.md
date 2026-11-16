@@ -2,7 +2,9 @@
 
 **Status:** Não iniciado  
 **Fase atual:** Planejamento  
-**Dependências:** Incrementos anteriores aprovados
+**Dependências:** INC-02 aprovado para autenticação e contexto da empresa; depende dos dados/migrations de INC-01.
+
+**Especificações de UI/UX e frontend:** [produto](../design/product.md), [catálogo](../design/screens/catalog.md), [detalhe do produto](../design/screens/product-detail.md), [fluxos de usuário](../design/user-flows.md) (catálogo, busca e detalhe informativo), [design system](../design/design-system.md) e [diretrizes frontend](../design/frontend-guidelines.md). `roadmap.md` delimita imagens, grade e compra a partir do detalhe como fora do MVP.
 
 ## Objetivo
 
@@ -15,6 +17,14 @@ Criar páginas Inertia e consultas eficientes; serviço de precificação puro/t
 ## Critérios de aceitação
 
 Busca por nome/SKU/EAN; categorias e paginação; produto inativo/sem preço não comprável; atacado ao atingir mínimo; promoção válida compete com regular/atacado sem acumular; cálculos em centavos.
+
+### Critérios de aceite de UI/UX
+
+- [ ] Exibe catálogo em lista compacta textual, sem imagens, com código, nome, preço aplicável, disponibilidade, quantidade e ação de adicionar; não depende de abrir detalhe para comprar.
+- [ ] Busca por nome parcial, SKU ou EAN, filtro por categoria e paginação estão disponíveis na UI; preservam contexto e apresentam estados de carregamento, vazio, sem resultados, indisponível e erro.
+- [ ] Página de detalhe apresenta as informações disponíveis do produto, sem ação de adicionar ao carrinho; a compra permanece na lista do catálogo.
+- [ ] Em desktop, compra permanece na linha; em smartphone, os dados e controles formam blocos sem rolagem horizontal.
+- [ ] Informação comercial reflete a empresa autenticada; preço e disponibilidade não são apresentados como definitivos além dos dados retornados pelo backend.
 
 ## Fora do escopo
 

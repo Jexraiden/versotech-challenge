@@ -10,6 +10,8 @@ Registrar pedido mediante seleção de condição comercial de pagamento, **sem 
 2. Condições de pagamento disponíveis para a empresa.
 3. Confirmação final.
 
+As condições comerciais são PIX, Boleto 28 dias e Boleto 28/56 dias, conforme elegibilidade e dados do backend. PIX não representa integração de pagamento; não solicitar dados financeiros nem processar cobranças nesta tela.
+
 ## Comportamento
 
 - Exibir restrições comerciais conforme resposta do backend.

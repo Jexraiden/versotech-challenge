@@ -2,7 +2,9 @@
 
 **Status:** Não iniciado  
 **Fase atual:** Planejamento  
-**Dependências:** Incrementos anteriores aprovados
+**Dependências:** INC-01 aprovado (usuários demo, empresas e base da aplicação disponíveis); concluir autenticação antes de expor catálogo e recursos restritos em INC-03.
+
+**Especificações de UI/UX e frontend:** [login](../design/screens/login.md), [fluxos de usuário](../design/user-flows.md) (autenticação e entrada no catálogo), [design system](../design/design-system.md), [diretrizes frontend](../design/frontend-guidelines.md) e [produto](../design/product.md).
 
 ## Objetivo
 
@@ -15,6 +17,12 @@ Implementar login por e-mail e senha, throttle, regeneração de sessão, logout
 ## Critérios de aceitação
 
 Cada usuário entra com suas credenciais; convidado é redirecionado; acesso indevido a recursos de outra empresa é negado; sessões são invalidadas corretamente.
+
+### Critérios de aceite de UI/UX
+
+- [ ] Formulário de login claro, rotulado e utilizável por teclado, com foco visível e erros acessíveis que não revelem se e-mail ou senha estão incorretos.
+- [ ] Envio mostra estado em andamento e impede envios acidentais repetidos; falha mantém orientação para correção e sucesso encaminha ao catálogo.
+- [ ] Tela funciona em desktop e smartphone e respeita os estados/componentes semânticos do design system.
 
 ## Fora do escopo
 

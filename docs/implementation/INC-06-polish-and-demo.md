@@ -2,7 +2,9 @@
 
 **Status:** Não iniciado  
 **Fase atual:** Planejamento  
-**Dependências:** Incrementos anteriores aprovados
+**Dependências:** INC-02 a INC-05 aprovados; consolida a experiência implementada e corrige problemas de integração sem ampliar requisitos funcionais.
+
+**Especificações de UI/UX e frontend:** [produto](../design/product.md), [design system](../design/design-system.md), [diretrizes frontend](../design/frontend-guidelines.md), [fluxos de usuário](../design/user-flows.md) e telas [login](../design/screens/login.md), [catálogo](../design/screens/catalog.md), [carrinho](../design/screens/cart.md) e [checkout](../design/screens/checkout.md). [Roadmap](../design/roadmap.md): melhorias futuras fora dos critérios obrigatórios.
 
 ## Objetivo
 
@@ -15,6 +17,14 @@ Revisar UX/responsividade/acessibilidade básica; mensagens de erro; README raiz
 ## Critérios de aceitação
 
 Setup reproduzível; principais jornadas passam; dados demo confiáveis; documentação reflete o código; demonstração percorre preços distintos, atacado, bloqueio, crédito, estoque e pedido.
+
+### Critérios de aceite de UI/UX
+
+- [ ] Percorrer a jornada obrigatória login → catálogo/busca/detalhe → carrinho → checkout → confirmação sem becos sem saída nem sucesso antecipado; histórico de pedidos é opcional se houver tempo.
+- [ ] Revisar responsividade desktop/mobile, foco/teclado, rótulos acessíveis, contraste e estados de carregamento, vazio, erro, indisponibilidade e sucesso nas telas do MVP.
+- [ ] Conferir que barra fixa não encobre conteúdo, que os textos refletem regras reais e que nenhuma tela introduz imagens, gateway ou dados logísticos fictícios.
+- [ ] Revisar se os componentes mantêm responsabilidades claras, props tipadas, composição adequada, estilos em CSS Modules e tokens compartilhados; justificar hooks, memoização ou primitivas externas adicionadas.
+- [ ] Registrar problemas residuais de UX como pendências, sem introduzir itens do roadmap ou marcar o incremento como aprovado.
 
 ## Fora do escopo
 

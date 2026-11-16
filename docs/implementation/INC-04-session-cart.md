@@ -2,7 +2,9 @@
 
 **Status:** Não iniciado  
 **Fase atual:** Planejamento  
-**Dependências:** Incrementos anteriores aprovados
+**Dependências:** INC-03 aprovado para catálogo e precificação; INC-02 aprovado para isolamento da sessão por identidade.
+
+**Especificações de UI/UX e frontend:** [carrinho](../design/screens/cart.md), [catálogo](../design/screens/catalog.md) (adição e barra fixa), [fluxos de usuário](../design/user-flows.md), [design system](../design/design-system.md) e [diretrizes frontend](../design/frontend-guidelines.md).
 
 ## Objetivo
 
@@ -15,6 +17,14 @@ Guardar apenas product_id e quantity em sessão; consolidar itens repetidos; con
 ## Critérios de aceitação
 
 Carrinho persiste na navegação da sessão; mudança de quantidade recalcula faixa; remoção funciona; itens inválidos são tratados; não há alteração de estoque/crédito.
+
+### Critérios de aceite de UI/UX
+
+- [ ] Adicionar pela lista mantém o usuário no catálogo, consolida produto repetido e fornece feedback acessível; a barra inferior aparece somente com itens e mostra unidades, subtotal e ação para abrir o carrinho.
+- [ ] Barra fixa não cobre conteúdo/controles em smartphone e respeita áreas seguras; reservar espaço inferior apropriado.
+- [ ] Página dedicada permite editar/remover, mostra resumo financeiro recalculado pelo backend e oferece retorno ao catálogo preservando o carrinho.
+- [ ] Estado vazio orienta retorno ao catálogo; erros/alterações comerciais são compreensíveis e não deixam totais inconsistentes.
+- [ ] Layout desktop separa itens e resumo; mobile empilha conteúdo com ação principal visível.
 
 ## Fora do escopo
 

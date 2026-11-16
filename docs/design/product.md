@@ -13,11 +13,12 @@ Plataforma de compras B2B para pessoas que trabalham em lojas compradoras. O usu
 ## MVP aprovado
 
 - Autenticação e identificação do contexto da empresa compradora.
-- Catálogo em **lista compacta sem imagens**, com busca por nome ou código, informações comerciais e compra direta.
+- Catálogo em **lista compacta sem imagens**, com busca por nome, SKU ou EAN, filtro por categoria, paginação, informações comerciais e compra direta da lista.
+- Página de detalhes do produto para consultar informações comerciais; adicionar ao carrinho continua disponível somente na lista do catálogo.
 - Adição ao carrinho sem sair do catálogo; barra fixa de resumo quando há itens.
 - Página dedicada de carrinho, com edição de quantidades, remoção e atualização de totais.
 - Checkout em página única com revisão, seleção de condição de pagamento permitida e confirmação do pedido.
-- Confirmação de pedido e histórico com detalhes consultáveis.
+- Confirmação do pedido. Histórico de pedidos com detalhes consultáveis é uma melhoria desejável se houver tempo, mas não é requisito do MVP.
 - Responsividade desktop/mobile.
 
 ## Regras de negócio a respeitar
@@ -30,7 +31,7 @@ Plataforma de compras B2B para pessoas que trabalham em lojas compradoras. O usu
 
 - Gateway de pagamento online (Pix/cartão).
 - Rastreamento logístico detalhado.
-- Imagens, grade de produtos e página de detalhes para comprar.
+- Imagens, grade de produtos e adicionar ao carrinho a partir da página de detalhes.
 
 ## Pendências de alinhamento técnico
 

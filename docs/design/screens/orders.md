@@ -1,5 +1,7 @@
 # Meus pedidos e detalhes
 
+**Prioridade:** melhoria desejável se houver tempo; fora dos critérios obrigatórios do MVP.
+
 ## Histórico
 
 Lista de pedidos do contexto autorizado com identificador, data, total e situação, conforme API. Permitir acessar detalhes.

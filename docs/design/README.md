@@ -7,8 +7,9 @@ Esta pasta é a fonte de referência para decisões de produto, UX e UI do MVP. 
 1. `product.md` — visão, público, escopo e limites.
 2. `user-flows.md` — jornadas e regras de interação.
 3. `design-system.md` — linguagem visual e responsividade.
-4. `screens/*.md` — comportamento esperado por tela.
-5. `roadmap.md` — ideias futuras, **não implementar no MVP**.
+4. `frontend-guidelines.md` — convenções de React, TypeScript, CSS e responsividade.
+5. `screens/*.md` — comportamento esperado por tela, incluindo [detalhe do produto](./screens/product-detail.md).
+6. `roadmap.md` — ideias futuras, **não implementar no MVP**.
 
 ## Regras para implementação
 

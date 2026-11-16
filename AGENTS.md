@@ -5,10 +5,14 @@ Instruções para Codex e demais agentes de IA que atuem neste repositório.
 ## 1. Leia antes de implementar
 
 Fontes de verdade, nesta ordem:
+
 1. [`docs/project/project-context.md`](docs/project/project-context.md) — contexto, prioridades e escopo.
 2. [`docs/project/requirements.md`](docs/project/requirements.md) — regras e critérios de aceitação.
 3. [`docs/architecture/system-design.md`](docs/architecture/system-design.md) — arquitetura proposta e fluxos críticos.
 4. [`docs/adr/README.md`](docs/adr/README.md) e ADRs pertinentes — decisões e trade-offs.
+5. [`docs/design/README.md`](docs/design/README.md), especificações em `docs/design/` — decisões de produto, UI, UX e implementação frontend para interfaces do MVP.
+
+Para decisões visuais, consultar também as telas relevantes em `docs/design/screens/`, os fluxos em `user-flows.md`, os tokens/comportamentos responsivos em `design-system.md` e as convenções em `frontend-guidelines.md`. `roadmap.md` descreve melhorias futuras e não amplia o MVP. As especificações de design complementam, mas não substituem, requisitos funcionais e regras de negócio. Em conflito relevante, registrar a divergência e solicitar decisão; não alterar unilateralmente escopo, regras aprovadas ou comportamento do backend.
 
 Se código e documentação divergirem, **relate a divergência**. Não altere silenciosamente regras de negócio para fazer o código se encaixar.
 
@@ -52,8 +56,9 @@ Se código e documentação divergirem, **relate a divergência**. Não altere s
 ## 5. Fluxo de trabalho SDD leve
 
 Para cada tarefa:
+
 1. Identificar requisito(s) e critério(s) de aceitação.
-2. Apresentar plano curto e arquivos que serão modificados.
+2. Para funcionalidades visuais, consultar as especificações de UI/UX e frontend pertinentes (`docs/design/README.md`, fluxo, design system, frontend guidelines e telas) e critérios do incremento; apresentar plano curto, arquivos que serão modificados e ambiguidades/conflitos identificados.
 3. Implementar o menor incremento funcional.
 4. Escrever/ajustar testes para o comportamento afetado.
 5. Preparar testes pertinentes; executar a validação formal após revisão adversarial e revisão humana, conforme os gates do incremento.
@@ -82,12 +87,12 @@ Para cada tarefa:
 ## 8. Critérios de conclusão
 
 Uma tarefa só está concluída quando:
+
 - Cumpre os critérios de aceitação relevantes.
 - Não quebra isolamento entre empresas.
 - Mantém regras comerciais no backend.
 - Possui testes adequados ao risco, ou limitações explicitamente documentadas.
 - Pode ser explicada de forma simples durante a apresentação técnica.
-
 
 ## 9. Processo obrigatório por incremento
 

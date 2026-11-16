@@ -222,6 +222,16 @@ Os testes de catálogo, precificação, carrinho, checkout e concorrência perte
 
 ---
 
+## Diretrizes de frontend
+
+As decisões de frontend buscam aproveitar os recursos atuais de React e TypeScript sem aumentar desnecessariamente a complexidade do projeto. A interface é organizada em componentes pequenos, com responsabilidades claras e props tipadas explicitamente. A composição é preferida a componentes com grandes condicionais; o estado fica próximo de onde é usado, e hooks personalizados são reservados para lógica reutilizável. Efeitos e memoização são adotados quando existe uma necessidade concreta, orientada por observação e medição.
+
+Para estilos, CSS Modules mantêm as regras específicas próximas dos componentes, enquanto o CSS global fica restrito a reset, tipografia, tokens e fundamentos compartilhados. CSS Custom Properties permitem reutilizar tokens de cores, bordas, espaçamentos e tipografia. A preferência por HTML semântico e CSS nativo evita dependências de estilo mais amplas, como Tailwind, Bootstrap e bibliotecas CSS-in-JS. Componentes próprios atendem elementos simples; primitivas acessíveis, como Radix, podem ser consideradas quando uma interação mais complexa justificar essa dependência.
+
+A abordagem é mobile-first, preservando uma experiência desktop cuidadosa e prioritária para o uso B2B. Estados interativos e foco visível fazem parte da experiência, com os detalhes definidos no [design system](docs/design/design-system.md) e nas [diretrizes frontend](docs/design/frontend-guidelines.md).
+
+---
+
 ## Fora do escopo
 
 Não pretendo implementar neste MVP gateway de pagamento, emissão real de PIX/boletos, frete, integração ERP, painel administrativo, cadastro público de empresas, cancelamentos ou reembolsos, aplicação mobile nativa, API REST pública, autenticação federada, MFA, Redis, filas ou armazenamento/CDN de imagens.
