@@ -1,39 +1,17 @@
 :root {
-    color: #172b3a;
-    background: #f3f6f7;
+    color: #1f2937;
+    background: #f8faf9;
     font-family: Inter, ui-sans-serif, system-ui, sans-serif;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
+    --color-action: #047857;
+    --color-border: #6b7280;
 }
 
 body {
     min-width: 320px;
     min-height: 100vh;
     margin: 0;
-}
-
-.page-shell {
-    display: grid;
-    min-height: 100vh;
-    place-items: center;
-    padding: 24px;
-}
-
-.welcome-card {
-    width: min(100%, 640px);
-    padding: 48px;
-    border: 1px solid #dce5e8;
-    border-radius: 20px;
-    background: #fff;
-    box-shadow: 0 20px 60px rgb(23 43 58 / 8%);
-}
-
-.eyebrow {
-    color: #087e75;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
 }
 
 h1 {

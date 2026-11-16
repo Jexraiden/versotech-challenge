@@ -48,6 +48,10 @@ A aplicação é servida pelo Laravel na porta configurada em `APP_PORT` (normal
 docker compose ps
 ```
 
+### Produção com HTTPS
+
+Configure `APP_ENV=production` e `SESSION_SECURE_COOKIE=true` no ambiente de produção. A configuração da aplicação habilita o atributo `Secure` por padrão quando `APP_ENV=production`; mantenha a variável explícita para tornar a exigência operacional visível. Esse cookie só deve ser usado quando a aplicação for acessada por HTTPS.
+
 **Observação sobre a primeira instalação:** `./vendor/bin/sail` só existe após instalar as dependências do Composer. Se o Composer não estiver disponível no host, a instalação inicial precisará ser feita em um contêiner PHP/Composer compatível antes de iniciar o Sail. Não é necessário instalar PostgreSQL no host.
 
 ## Dados de demonstração
