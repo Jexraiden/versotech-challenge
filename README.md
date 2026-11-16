@@ -146,20 +146,13 @@ Versões observadas na validação do INC-01: Laravel 13.42.0, PHP 8.4.27, Postg
 Optei por um monólito **Laravel com Inertia**, evitando uma API REST separada para um frontend que faz parte da mesma aplicação.
 
 ```mermaid
-Navegador
-React + TypeScript
-       |
-       | HTTP / Inertia / sessão / CSRF
-       v
-Laravel — rotas web e controllers
-       |
-       +--> Autenticação e autorização por empresa
-       +--> Catálogo e precificação
-       +--> Carrinho na sessão
-       +--> Checkout e pedidos
-                       |
-                       v
-                   PostgreSQL
+flowchart TD
+    A[Navegador<br/>React + TypeScript] -->|HTTP / Inertia / sessão / CSRF| B[Laravel — rotas web e controllers]
+    B --> C[Autenticação e autorização por empresa]
+    B --> D[Catálogo e precificação]
+    B --> E[Carrinho na sessão]
+    B --> F[Checkout e pedidos]
+    F --> G[(PostgreSQL)]
 ```
 
 O banco é a fonte persistente de verdade. O carrinho é um estado temporário e não reserva estoque. No checkout, preços, disponibilidade e crédito são recalculados e validados no servidor.
