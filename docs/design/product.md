@@ -34,8 +34,8 @@ Plataforma de compras B2B para pessoas que trabalham em lojas compradoras. O usu
 - Rastreamento logístico detalhado.
 - Imagens, grade de produtos e adicionar ao carrinho a partir da página de detalhes.
 
-## Pendências de alinhamento técnico
+## Alinhamento técnico implementado
 
-- Confirmar campos exatos retornados pela API, sem inventar dados.
-- Confirmar semântica de subtotal, descontos, disponibilidade e crédito.
-- Confirmar status de pedido existentes e persistência do carrinho.
+- As páginas React recebem dados pelas rotas Laravel/Inertia, sem API REST pública.
+- Subtotal, descontos, disponibilidade e crédito são calculados ou revalidados no backend; o carrinho persiste na sessão.
+- O pedido é criado com status inicial `RECEBIDO`; a listagem e os detalhes exibem o estado persistido.

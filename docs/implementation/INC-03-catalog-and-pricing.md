@@ -1,14 +1,14 @@
 # INC-03 — Catálogo e precificação
 
 **Status:** Aprovado
-**Fase atual:** Commit manual pendente
+**Fase atual:** Concluída; commit manual realizado
 **Dependências:** INC-02 aprovado para autenticação e contexto da empresa; depende dos dados/migrations de INC-01.
 
 **Especificações de UI/UX e frontend:** [produto](../design/product.md), [catálogo](../design/screens/catalog.md), [detalhe do produto](../design/screens/product-detail.md), [fluxos de usuário](../design/user-flows.md) (catálogo, busca e detalhe informativo), [design system](../design/design-system.md) e [diretrizes frontend](../design/frontend-guidelines.md). `roadmap.md` delimita imagens, grade e compra a partir do detalhe como fora do MVP.
 
 ## Objetivo
 
-Home, busca, filtro, paginação e detalhe exibem dados comerciais e menor preço elegível.
+O catálogo reúne a entrada da aplicação, busca, filtro e paginação; a página de detalhe informa os dados comerciais. A rota inicial redireciona para o catálogo, sem vitrine separada.
 
 ## Implementação esperada
 
@@ -50,5 +50,5 @@ Verificar N+1, vazamento de preços, promoções futuras/expiradas, limites de d
 **Arquivos alterados:** controller e consultas de catálogo, serviço de precificação, modelo de produto/tabela de preço, rotas, páginas e estilos do catálogo, testes de autenticação, catálogo e precificação; este registro.
 **Achados da revisão:** revisão adversarial encontrou erro de escala percentual que podia gerar preço negativo. Corrigido com cálculo na escala correta e validação de preço/desconto; revisão subsequente não encontrou novos defeitos. Revisões ocorreram nesta conversa, sem sessão separada.
 **Testes e resultados:** `docker compose run --rm --no-deps laravel.test php artisan test` — 40 testes passaram, 357 assertions, duração 25,39s. A primeira execução revelou uma asserção incorreta no novo teste de busca; o teste foi ajustado e a execução final passou. `git diff --check` sem apontamentos.
-**Pendências / decisões:** ação funcional de adicionar ao carrinho transferida para INC-04 e refletida no respectivo critério; o botão no catálogo permanece desabilitado até esse incremento. Ajustes recentes de paginação e cabeçalho não foram cobertos pela suíte PHP nem verificados por build frontend. Sem pendências de commit.
+**Pendências / decisões:** ação funcional de adicionar ao carrinho transferida para INC-04 e refletida no respectivo critério; o botão no catálogo permanecia desabilitado nesta fase e foi habilitado no INC-04. Ajustes feitos após a validação deste incremento não foram cobertos pela sua suíte PHP nem por seu build frontend; as validações posteriores constam dos incrementos seguintes. Sem pendências de commit.
 **Aprovação:** INC-03 aprovado explicitamente pelo desenvolvedor em 16/11/2026.

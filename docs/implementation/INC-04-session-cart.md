@@ -1,6 +1,6 @@
 # INC-04 — Carrinho em sessão
 
-**Status:** Concluído — aprovado pelo desenvolvedor; commit manual pendente
+**Status:** Concluído — aprovado pelo desenvolvedor; commit manual realizado
 **Fase atual:** Concluída
 **Dependências:** INC-03 aprovado para catálogo e precificação; INC-02 aprovado para isolamento da sessão por identidade.
 
@@ -43,7 +43,7 @@ Verificar manipulação de quantidades, produto desativado, estoque reduzido, tr
 - [x] Testes formais executados com comandos e resultados registrados
 - [x] Critérios de aceitação revisados pelo desenvolvedor e suíte automatizada aprovada
 - [x] Aprovação explícita do desenvolvedor
-- [ ] Commit manual após aprovação
+- [x] Commit manual após aprovação (`8623def` — `feat(cart): implement session cart for INC-04`)
 
 ## Registro da execução
 
@@ -53,5 +53,5 @@ Verificar manipulação de quantidades, produto desativado, estoque reduzido, tr
 
 **Testes e resultados:** validação formal após revisão manual: `docker compose run --rm --no-deps laravel.test php artisan test` — 48 testes passaram, 474 assertions, duração 33,27s; `npm run typecheck` — passou; `npm run build` — passou. A suíte PHP usa SQLite em memória conforme `phpunit.xml`; PostgreSQL não foi validado nesta execução. O desenvolvedor informou que revisou manualmente os ajustes visuais. Por autorização explícita do desenvolvedor em 16/11/2026, a nova revisão adversarial foi dispensada neste ciclo por os últimos ajustes serem exclusivamente de frontend.
 
-**Pendências / decisões:** revisão adversarial dispensada por autorização explícita do desenvolvedor em 16/11/2026. Testes formais concluídos; integração com PostgreSQL não verificada. Aprovação explícita do INC-04 recebida em 16/11/2026. Commit manual pendente.
-**Aprovação:** aprovada pelo desenvolvedor em 16/11/2026; commit manual pendente.
+**Pendências / decisões:** revisão adversarial dispensada por autorização explícita do desenvolvedor em 16/11/2026. Testes formais concluídos; integração com PostgreSQL não verificada naquela execução. Aprovação explícita do INC-04 recebida em 16/11/2026. Commit manual realizado posteriormente.
+**Aprovação:** aprovada pelo desenvolvedor em 16/11/2026.

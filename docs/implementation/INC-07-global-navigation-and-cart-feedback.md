@@ -1,7 +1,7 @@
 # INC-07 — Navegação global e feedback do carrinho
 
-**Status:** Aprovado pelo desenvolvedor — commit manual pendente
-**Fase atual:** Validação formal concluída e aprovação registrada
+**Status:** Concluído; commit manual realizado
+**Fase atual:** Concluída
 **Dependências:** INC-06 implementado
 
 **Especificações de UI/UX:** [produto](../design/product.md), [fluxos](../design/user-flows.md), [design system](../design/design-system.md), [diretrizes frontend](../design/frontend-guidelines.md), [catálogo](../design/screens/catalog.md), [detalhe do produto](../design/screens/product-detail.md), [carrinho](../design/screens/cart.md) e [checkout](../design/screens/checkout.md).
@@ -72,4 +72,4 @@ Este documento define o escopo proposto. Implementação, revisão adversarial, 
 - A suíte PHP usa SQLite em memória conforme `phpunit.xml`; PostgreSQL real não foi validado. Verificações manuais de responsividade e teclado não foram executadas nesta validação.
 - Primeira tentativa com `docker compose run --rm --no-deps --no-build laravel.test php artisan test` não foi aceita pelo Compose instalado (`unknown flag: --no-build`); repetição sem essa opção foi concluída com sucesso.
 
-**Aprovação:** INC-07 aprovado explicitamente pelo desenvolvedor em 17/11/2026. Commit manual pendente.
+**Aprovação:** INC-07 aprovado explicitamente pelo desenvolvedor em 17/11/2026. Commit manual realizado (`0e979df` — `feat: add global navigation and cart feedback`).

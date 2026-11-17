@@ -42,7 +42,7 @@ Documentos principais:
 - `docs/architecture/system-design.md`
 - `docs/adr/`
 - `AGENTS.md`
-- `README.md` (a ser preenchido com instalação, execução, testes e demonstração)
+- `README.md` (instalação, execução, testes e demonstração)
 
 ## Fora do escopo
 

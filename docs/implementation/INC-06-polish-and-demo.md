@@ -1,7 +1,7 @@
 # INC-06 — Finalização e demonstração
 
-**Status:** Aprovado — pronto para commit manual
-**Fase atual:** Commit manual pelo desenvolvedor
+**Status:** Concluído; commit manual realizado
+**Fase atual:** Concluída
 **Dependências:** INC-02 a INC-05 aprovados; consolida a experiência implementada e corrige problemas de integração sem ampliar requisitos funcionais.
 
 **Especificações de UI/UX e frontend:** [produto](../design/product.md), [design system](../design/design-system.md), [diretrizes frontend](../design/frontend-guidelines.md), [fluxos de usuário](../design/user-flows.md) e telas [login](../design/screens/login.md), [catálogo](../design/screens/catalog.md), [carrinho](../design/screens/cart.md) e [checkout](../design/screens/checkout.md). [Roadmap](../design/roadmap.md): melhorias futuras fora dos critérios obrigatórios.
@@ -43,7 +43,7 @@ Verificar configuração limpa, variáveis de ambiente, segredos, erros visívei
 - [x] Testes formais executados com comandos e resultados registrados
 - [x] Critérios de aceitação validados
 - [x] Aprovação explícita do desenvolvedor
-- [ ] Commit manual após aprovação
+- [x] Commit manual após aprovação (`0906356` — `feat(inc-06): polish MVP experience and prepare demo`)
 
 ## Registro da execução
 
@@ -53,5 +53,5 @@ Verificar configuração limpa, variáveis de ambiente, segredos, erros visívei
 
 **Testes e resultados:** `docker compose run --rm --no-deps laravel.test php artisan test` — 57 testes passaram (578 assertions), em 38,66s. `npm run typecheck` — passou. `npm run build` — passou. A tentativa inicial com `--no-build` falhou porque a versão instalada do Docker Compose não reconhece essa opção (`unknown flag: --no-build`); a suíte foi executada com sucesso sem ela. A suíte automatizada usa SQLite em memória conforme `phpunit.xml`. O desenvolvedor informa que também validou manualmente a jornada e os critérios visuais e testou a concorrência no PostgreSQL; comandos, cenários e resultados detalhados desses testes manuais não foram fornecidos neste registro. `git diff --check` não reportou erros de whitespace.
 
-**Pendências / decisões:** revisões adversarial e manual, validação automatizada e critérios de aceite foram concluídos conforme informado pelo desenvolvedor. O incremento está aprovado e pronto para commit manual; o commit Git ainda não foi criado. INC-04 tem alterações locais preexistentes fora do escopo deste registro e foram preservadas.
-**Aprovação:** aprovada pelo desenvolvedor; commit manual pendente.
+**Pendências / decisões:** revisões adversarial e manual, validação automatizada e critérios de aceite foram concluídos conforme informado pelo desenvolvedor. O incremento foi aprovado e commitado manualmente. As alterações locais preexistentes de INC-04 foram preservadas durante a validação histórica deste incremento.
+**Aprovação:** aprovada pelo desenvolvedor.

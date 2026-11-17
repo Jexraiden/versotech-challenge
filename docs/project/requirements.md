@@ -1,6 +1,8 @@
 # Requisitos e critérios de aceitação — B2B Commerce
 
-**Versão:** 1.0 · **Status:** baseline do MVP · **Data:** 15/11/2026
+**Versão:** 1.1 · **Status:** escopo do MVP implementado até o INC-07 · **Atualizado em:** 17/11/2026
+
+As caixas abaixo definem critérios de referência e não registram sua validação. Aprovações, resultados de testes e limitações estão nos documentos dos incrementos em `docs/implementation/`.
 
 ## 1. Premissas dos dados
 
@@ -33,9 +35,6 @@ Dados de referência:
 
 ## 3. Catálogo
 
-### CAT-01 — Home
-- [ ] Exibe vitrine textual de produtos ativos comercializáveis e navegação para catálogo.
-
 ### CAT-02 — Busca
 - [ ] Busca por nome parcial, SKU e EAN.
 - [ ] Filtro por categoria e paginação.
@@ -44,7 +43,7 @@ Dados de referência:
 
 ### CAT-03 — Detalhe
 - [ ] Exibe nome, descrição quando existente, marca, categoria, SKU, preço e disponibilidade.
-- [ ] Permite selecionar quantidade positiva.
+- [ ] Detalhe informativo; a quantidade positiva é selecionada na lista do catálogo, onde o produto é adicionado ao carrinho.
 - [ ] Produto inativo, sem preço aplicável ou sem estoque não pode ser comprado.
 - [ ] Indica preço de atacado quando aplicável.
 - [ ] **Não exibe imagens de produtos no MVP**; layout textual intencional.
@@ -158,7 +157,7 @@ Dados de referência:
 
 ## 10. Fora do escopo
 
-Imagens, cadastro público, painel administrativo, gateway real, frete, ERP, cancelamento/reembolso, Redis, API REST pública, MFA e SSO.
+Home/vitrine separada do catálogo, compra a partir do detalhe, imagens, cadastro público, painel administrativo, gateway real, frete, ERP, cancelamento/reembolso, Redis, API REST pública, MFA e SSO. A rota inicial redireciona para o catálogo.
 
 ## 11. Pontos para validar durante a implementação
 

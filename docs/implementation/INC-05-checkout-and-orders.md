@@ -1,10 +1,10 @@
 # INC-05 — Checkout e pedidos transacionais
 
-**Status:** Aprovado pelo desenvolvedor; commit manual pendente
-**Fase atual:** Aprovação concluída; aguardando commit manual
+**Status:** Concluído; commit manual realizado
+**Fase atual:** Concluída
 **Dependências:** INC-04 aprovado (itens do carrinho); INC-02 aprovado (autorização); INC-03 aprovado (preços comerciais); usa as garantias transacionais definidas em requirements e system design.
 
-**Especificações de UI/UX e frontend:** [checkout](../design/screens/checkout.md), [fluxos de usuário](../design/user-flows.md) (checkout e confirmação), [design system](../design/design-system.md) e [diretrizes frontend](../design/frontend-guidelines.md). A tela de [pedidos](../design/screens/orders.md) descreve melhoria opcional fora dos critérios obrigatórios do MVP.
+**Especificações de UI/UX e frontend:** [checkout](../design/screens/checkout.md), [fluxos de usuário](../design/user-flows.md) (checkout e confirmação), [design system](../design/design-system.md) e [diretrizes frontend](../design/frontend-guidelines.md). A listagem de [pedidos](../design/screens/orders.md) estava fora do escopo deste incremento e foi implementada no INC-07.
 
 ## Objetivo
 
@@ -43,7 +43,7 @@ Priorizar race conditions, deadlocks, colisão de checkout_key, reenvio com payl
 - [x] Testes formais executados com comandos e resultados registrados
 - [x] Critérios de aceitação validados pelo desenvolvedor e pela suíte automatizada, com a limitação de concorrência abaixo reconhecida
 - [x] Aprovação explícita do desenvolvedor
-- [ ] Commit manual após aprovação
+- [x] Commit manual após aprovação (`e4a64df` — `feat(checkout): complete transactional checkout and order flow`)
 
 ### Limitação conhecida de validação
 
@@ -55,5 +55,5 @@ A suíte PHPUnit padrão executada no INC-05 usou SQLite em memória e não comp
 **Achados da revisão:** um achado Low sobre campos de formulário excessivamente altos foi corrigido. O desenvolvedor dispensou nova revisão adversarial após a correção.  
 **Testes e resultados:** `docker compose run --rm --no-deps laravel.test php artisan test` — 57 testes passaram (578 assertions), em 37,82 s. Uma tentativa anterior com `--no-build` não foi aceita pela versão instalada do Docker Compose (`unknown flag: --no-build`).  
 **Verificações manuais:** o desenvolvedor confirmou o funcionamento da tela e a realização das verificações manuais.  
-**Pendências / decisões:** na conclusão do INC-05, a concorrência real em PostgreSQL permanecia não verificada. O desenvolvedor informou validação manual posterior no INC-06; ver registro desse incremento. Commit ainda não realizado; aguarda ação manual do desenvolvedor.
-**Aprovação:** aprovada explicitamente pelo desenvolvedor em 16/11/2026. **Commit:** pendente.
+**Pendências / decisões:** na conclusão do INC-05, a concorrência real em PostgreSQL permanecia não verificada. O desenvolvedor informou validação manual posterior no INC-06; ver registro desse incremento. Commit manual realizado posteriormente.
+**Aprovação:** aprovada explicitamente pelo desenvolvedor em 16/11/2026.

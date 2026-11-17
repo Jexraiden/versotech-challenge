@@ -72,6 +72,8 @@ Não use `migrate:fresh`, `db:wipe` ou `down -v` em um banco com dados a preserv
 - Valores monetários são inteiros em centavos. O checkout não processa pagamentos, emite boletos ou calcula frete.
 - O MVP não usa imagens de produtos, Redis, filas, API REST pública ou serviços externos.
 - A suíte automatizada padrão usa SQLite em memória e não cobre contenção concorrente com PostgreSQL (`lockForUpdate`). O desenvolvedor informou validação manual adicional com PostgreSQL no INC-06; detalhes estão registrados em [`INC-06`](docs/implementation/INC-06-polish-and-demo.md), enquanto [`INC-05`](docs/implementation/INC-05-checkout-and-orders.md) preserva o resultado da validação original daquele incremento.
+- Risco assumido no MVP: o carrinho é mantido na sessão e o checkout recalcula os valores ao confirmar. Se um preço ou promoção mudar após a exibição do resumo, o pedido pode ser criado com total diferente do mostrado, sem nova confirmação desse valor.
+- Risco assumido na migração de endereço: o campo legado `delivery_address` é removido sem migrar seu conteúdo. Instalações com pedidos anteriores à mudança perdem esse endereço textual; o fluxo atual grava os novos pedidos em campos estruturados.
 
 ## Documentação
 
@@ -83,7 +85,7 @@ Não use `migrate:fresh`, `db:wipe` ou `down -v` em um banco com dados a preserv
 
 ## Estado da implementação
 
-INC-01 a INC-06 estão registrados como implementados e aprovados. No INC-06, implementação, revisões, testes automatizados e critérios de UX/jornada foram concluídos. O INC-07 está especificado e aguardando aprovação para implementação; seus comportamentos propostos ainda não fazem parte da aplicação.
+INC-01 a INC-07 estão implementados. O INC-07 inclui navegação global, busca no cabeçalho, menu da conta com listagem paginada de pedidos e feedback de inclusão no carrinho.
 
 ---
 
@@ -235,7 +237,7 @@ O projeto usa desenvolvimento orientado a especificações (SDD) de forma leve. 
 
 ## Plano de execução
 
-O plano inicial cobria domingo, 15/11, a terça-feira, 17/11/2026. O resumo abaixo distingue entregas registradas de validações que ainda faltam no INC-06.
+O plano inicial cobria domingo, 15/11, a terça-feira, 17/11/2026. O resumo abaixo registra as entregas e validações concluídas; o INC-07 foi acrescentado depois desse plano inicial.
 
 ### Domingo — 15/11: fundamentos e dados
 
@@ -268,6 +270,7 @@ O plano inicial cobria domingo, 15/11, a terça-feira, 17/11/2026. O resumo abai
 - [x] Fazer revisão manual e executar a validação formal do INC-06, incluindo testes, typecheck/build e jornada ponta a ponta.
 - [x] Registrar resultados, limitações e aprovação do incremento.
 - [x] Realizar commit manual após aprovação.
+- [x] Concluir o INC-07: navegação global, pedidos paginados e feedback do carrinho; realizar revisão, validação e commit manual.
 
 O critério de entrega não é concluir toda melhoria imaginada, mas permitir demonstrar uma compra B2B correta e compreensível, do login à confirmação, explicando com clareza as limitações restantes.
 

@@ -1,7 +1,7 @@
 # INC-01 — Fundação e importação dos dados
 
-**Status:** Aprovado pelo desenvolvedor; commit manual pendente  
-**Fase atual:** Aprovação concluída  
+**Status:** Concluído; commit manual realizado
+**Fase atual:** Concluída
 **Dependências:** Nenhuma
 
 ## Objetivo
@@ -33,12 +33,12 @@ Verificar campos opcionais, datas, arredondamento de importação, unicidade de 
 - [x] Testes formais executados com comandos e resultados registrados
 - [x] Critérios de aceitação validados
 - [x] Aprovação explícita do desenvolvedor (16/11/2026)
-- [ ] Commit manual após aprovação
+- [x] Commit manual após aprovação (`871881c` — `feat: establish application foundation and seed initial data`)
 
 ## Registro da execução
 
 **Arquivos alterados:** implementação do INC-01 já presente no workspace antes da validação formal; nenhum arquivo de aplicação foi alterado durante a validação.  
 **Achados da revisão:** revisão adversarial concluída e problemas identificados corrigidos, conforme informado pelo desenvolvedor.  
 **Testes e resultados:** `docker compose exec -T laravel.test php artisan migrate --force` — sem migrations pendentes; duas execuções de `docker compose exec -T laravel.test php artisan db:seed --force` — sucesso; suíte no Sail — 15 testes e 50 asserções passaram; `npm run typecheck` — sucesso; `npm run build` — sucesso; requisição local — HTTP 200 com componente Inertia `Welcome`. Preservação de estoque e crédito confirmada com valores-sentinela dentro de transação revertida.  
-**Pendências / decisões:** commit manual pendente. A execução de `php artisan test` no host falhou por ausência do driver SQLite e uma asserção Inertia; a suíte passou no container Sail.  
-**Aprovação:** aprovada explicitamente pelo desenvolvedor em 16/11/2026; commit não realizado.
+**Pendências / decisões:** a execução de `php artisan test` no host falhou por ausência do driver SQLite e uma asserção Inertia; a suíte passou no container Sail. Commit manual realizado posteriormente.
+**Aprovação:** aprovada explicitamente pelo desenvolvedor em 16/11/2026.

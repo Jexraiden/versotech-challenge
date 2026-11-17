@@ -1,11 +1,13 @@
 # System Design — Versotech B2B Commerce
 
-**Status:** INC-01 a INC-06 implementados e aprovados; commit manual do INC-06 pendente
-**Atualizado em:** 16/11/2026
+**Status:** INC-01 a INC-07 implementados, aprovados e commitados
+**Atualizado em:** 17/11/2026
 **Requisitos:** [requirements.md](../project/requirements.md)
 **Decisões:** [ADRs](../adr/)
 
 > Este documento registra a arquitetura implementada e suas limitações verificadas. Não apresentar verificações pendentes como garantias comprovadas.
+
+> A seção 12 registra um cenário de evolução para discussão de system design. Suas premissas e componentes externos são propostas, não funcionalidades implementadas nem requisitos aprovados do MVP.
 
 ## 1. Objetivo e limites
 
@@ -70,6 +72,8 @@ erDiagram
 
 Endereços de entrega são salvos como snapshot estruturado. A migration aditiva mantém os campos anuláveis no banco para permitir leitura de pedidos anteriores sem endereço estruturado; novos pedidos exigem `zipcode`, `state`, `city`, `district` e `address`, com `address_extra` opcional. O campo textual legado `delivery_address` foi removido.
 
+**Risco assumido na migração:** a remoção de `delivery_address` não migra seu conteúdo para os campos novos. Em uma base com pedidos anteriores, o endereço textual desses pedidos é perdido; o fluxo atual pressupõe pedidos novos com endereço estruturado.
+
 ### Convenções de nomenclatura e dinheiro
 
 - Identificadores técnicos **sempre em inglês**: tabelas/colunas em `snake_case`, classes PHP em `PascalCase`, variáveis e métodos PHP/TypeScript em `camelCase`, componentes React em `PascalCase`.
@@ -98,7 +102,7 @@ Endereços de entrega são salvos como snapshot estruturado. A migration aditiva
 
 ### Catálogo
 
-- Home e catálogo textual, sem imagens.
+- A rota inicial redireciona para o catálogo textual, sem vitrine separada nem imagens.
 - Busca por nome, SKU ou EAN, filtro por categoria e paginação.
 - Produtos inativos não são comercializáveis.
 - Produto sem preço na tabela da empresa não pode ser comprado.
@@ -184,6 +188,8 @@ sequenceDiagram
 
 **Ponto de atenção:** se um reenvio utilizar a mesma chave com payload divergente, rejeitar o conflito ou associar a chave a um fingerprint da tentativa. Não permitir que a chave identifique pedidos de outras empresas.
 
+**Risco assumido no MVP:** o carrinho permanece na sessão e os preços são recalculados na confirmação. Se preço ou promoção mudar entre a exibição do checkout e o envio, o total persistido pode diferir do total exibido, sem etapa de reconfirmação. O servidor continua sendo a fonte de verdade para o pedido.
+
 ## 8. Imagens de produtos
 
 Os JSONs fornecidos não incluem imagens nem caminhos/URLs. **Não haverá imagens no MVP**, inclusive placeholders que simulem imagens reais. As telas serão desenhadas para funcionar sem elas.
@@ -225,8 +231,64 @@ Para a demonstração, usar os três usuários de teste, destacando as diferenç
 | Autenticação simplificada e riscos | [ADR-005](../adr/005-auth-security-scope.md) |
 | Ausência de imagens no MVP | [ADR-006](../adr/006-product-images.md) |
 
-**Estado da implementação:** INC-01 fornece a fundação Laravel/Sail, migrations e seeders reproduzíveis dos dados comerciais e usuários demo, conversão decimal exata para centavos e a página inicial Inertia. INC-02 implementa autenticação web por sessão, limitação de tentativas e contexto da empresa autenticada. INC-03 implementa catálogo e detalhe via Inertia, busca, filtros, paginação e precificação por tabela/atacado/promoção, com cálculos em centavos. INC-04 implementa carrinho em sessão, adição pela lista do catálogo e recálculo de preço/estoque no servidor; foi aprovado e concluído. INC-05 implementa checkout e pedidos transacionais; foi aprovado pelo desenvolvedor. A suíte automatizada usa SQLite e não verifica concorrência PostgreSQL. No INC-06, o desenvolvedor informou validação manual adicional da concorrência real no PostgreSQL. INC-06 foi aprovado após revisões e validações; commit manual pendente.
+**Estado da implementação:** INC-01 fornece a fundação Laravel/Sail, migrations e seeders reproduzíveis dos dados comerciais e usuários demo, conversão decimal exata para centavos e a página inicial Inertia. INC-02 implementa autenticação web por sessão, limitação de tentativas e contexto da empresa autenticada. INC-03 implementa catálogo e detalhe via Inertia, busca, filtros, paginação e precificação por tabela/atacado/promoção, com cálculos em centavos. INC-04 implementa carrinho em sessão, adição pela lista do catálogo e recálculo de preço/estoque no servidor. INC-05 implementa checkout e pedidos transacionais. INC-06 consolida UX, README e roteiro de demonstração. INC-07 acrescenta navegação global, busca no cabeçalho, menu da conta, listagem paginada de pedidos e feedback de inclusão no carrinho. Todos os incrementos foram aprovados pelo desenvolvedor e commitados. A suíte automatizada usa SQLite e não verifica concorrência PostgreSQL; no INC-06, o desenvolvedor informou validação manual adicional dessa concorrência, sem comandos ou resultados detalhados registrados.
 
 **Aplicação local e demonstração:** `docker compose`/Sail executa Laravel e PostgreSQL; o frontend React/TypeScript é entregue por Inertia e os assets são servidos pelo Vite. `DatabaseSeeder` importa dados comerciais e usuários demo. A senha `password` só é criada fora de produção. A reexecução dos seeders mantém quantidade de estoque e crédito utilizado operacionais, portanto um roteiro que dependa dos valores iniciais deve começar com banco local vazio e `migrate --seed`; não se deve tratar `db:seed` repetido como restauração de estado inicial.
 
 INC-06 registra o setup no README e o roteiro em [`docs/demo/INC-06-demo.md`](../demo/INC-06-demo.md). A suíte padrão usa SQLite em memória e não demonstra contenção concorrente PostgreSQL; a validação manual adicional informada pelo desenvolvedor está registrada no incremento.
+
+## 12. Cenário proposto de evolução para produção
+
+Além de escrever o system design para o MVP, também desenvolvi para o possível produto e escalando o MVP.
+
+### 12.1 Premissas e arquitetura inicial
+
+- Considerei que existem centenas de usuários simultâneos, possivelmente alguns milhares. Assim como alguns picos de uso na plataforma.
+- Não estou presumindo um ERP devido aos produtos estarem em arquivos.
+- Estou assumindo que será usado um gateway externo de pagamento e também de postagem e rastreamento das entregas.
+- Estou mantendo inicialmente o monólito Laravel modular, escalado horizontalmente atrás de load balancer.
+- Será usado armazenamento compartilhado de sessão/cache entre instâncias. Redis é uma opção para sessões e cache de catálogo; não é a fonte de verdade para o preço final, estoque, crédito ou estado do pedido.
+- PostgreSQL está mantido como o banco de dados primário. Pode ser adicionada uma réplica para leituras ocasionais se necessário escalar.
+- Estou considerando que os produtos terão imagens, e elas serão armazenadas em Object Storage e servidas por CDN.
+
+```mermaid
+flowchart LR
+    BROWSER["Navegador da empresa"] --> EDGE["CDN / proteção de borda / load balancer"]
+    EDGE --> APP["Monólito Laravel modular<br/>várias instâncias"]
+
+    APP <-->|"sessões compartilhadas<br/>e cache de catálogo"| REDIS[("Redis")]
+    APP <-->|"dados transacionais e metadados"| PRIMARY[("PostgreSQL primário")]
+    PRIMARY -.->|"replicação"| REPLICA[("Réplica de leitura opcional")]
+    APP -->|"consultas tolerantes a atraso"| REPLICA
+
+    APP -->|"inicia cobrança"| PAYMENT["Gateway de pagamento"]
+    PAYMENT -->|"webhook de pagamento"| APP
+
+    APP -->|"após confirmar pedido: publica tarefas"| BROKER[("Broker/fila opcional")]
+    BROKER --> WORKERS["Workers Laravel"]
+    WORKERS -->|"confirmação/status ao comprador"| NOTIFY["E-mail / notificações"]
+    WORKERS -->|"cria ou atualiza entrega"| DELIVERY["Serviço de entrega"]
+    DELIVERY -->|"webhook de status"| APP
+
+    APP -.->|"grava/atualiza arquivo, se aplicável"| STORAGE[("Object Storage / S3 opcional")]
+    BROWSER -.->|"carrega imagens"| IMAGE_CDN["CDN de imagens opcional"]
+    IMAGE_CDN -.->|"origem dos arquivos"| STORAGE
+```
+
+**Racional de integração e confiabilidade:** iniciar uma cobrança pode fazer parte da interação do checkout, mas a confirmação do pagamento costuma ocorrer depois e chegar por webhook. Como provedores podem reenviar eventos, a aplicação precisa reconhecer duplicatas e registrar o estado recebido antes de disparar notificações ou outras ações. O mesmo padrão se aplica às atualizações vindas do serviço de entrega.
+
+Para tarefas assíncronas, publicar somente depois do commit evita que workers processem um pedido que acabou revertido. Essa ordem, porém, deixa uma pequena janela em que o pedido já foi salvo e a mensagem ainda não chegou ao broker; uma transactional outbox reduz essa possibilidade, ao custo de mais uma etapa de publicação e operação. A entrega de mensagens também pode ocorrer mais de uma vez, então workers idempotentes, retries e uma fila de mensagens com falha são formas de tornar o processamento recuperável.
+
+### 12.2 Escala e extração de serviços
+
+Qualquer módulo pode ser extraído como microserviço se as métricas mostrarem que ele precisa escalar de forma diferente do restante da aplicação. Por exemplo, se o catálogo precisar de mais capacidade para atender às leituras, mas pagamentos não tiverem a mesma demanda, posso desacoplar o catálogo e escalar esse serviço sem aumentar todas as instâncias do monólito. Essa decisão depende da carga observada e deve considerar o custo adicional de operar serviços separados.
+
+### 12.3 Broker dedicado
+
+Eu também começaria com as filas do Laravel para processar notificações e integrações em segundo plano. Acompanharia o volume, o tempo de espera, as falhas e a necessidade de escalar consumidores separadamente. Se esses sinais mostrarem que a fila atual virou uma limitação ou que precisamos de mais controle sobre roteamento e processamento, avaliaria adotar um broker dedicado, como RabbitMQ. Ele não precisa entrar desde o início: adiciona uma peça para operar e manter. Mesmo com RabbitMQ, pedidos e seus estados continuariam tendo o PostgreSQL como fonte de verdade.
+
+### 12.4 Recomendações personalizadas como evolução de produto
+
+A proposta e o benefício esperado para as empresas estão descritos no [roadmap de produto](../design/roadmap.md). Do ponto de vista arquitetural, uma versão futura poderia processar o histórico autorizado de cada empresa para gerar recomendações e encaminhá-las ao fluxo de notificações já existente. Esse processamento poderia começar fora do caminho síncrono do checkout; não há necessidade de definir agora um serviço ou modelo de IA separado.
+
+As recomendações precisariam respeitar o isolamento entre empresas e usar o catálogo e a tabela de preços aplicáveis à empresa compradora. Elas não alterariam pedidos: o comprador decide se aceita uma sugestão, e qualquer compra continua passando pelo checkout, que revalida preço, disponibilidade e regras comerciais.

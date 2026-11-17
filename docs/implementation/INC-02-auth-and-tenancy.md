@@ -1,7 +1,7 @@
 # INC-02 — Autenticação e isolamento
 
 **Status:** Aprovado  
-**Fase atual:** Commit manual pendente  
+**Fase atual:** Concluída; commit manual realizado
 **Dependências:** INC-01 aprovado (usuários demo, empresas e base da aplicação disponíveis); concluir autenticação antes de expor catálogo e recursos restritos em INC-03.
 
 **Especificações de UI/UX e frontend:** [login](../design/screens/login.md), [fluxos de usuário](../design/user-flows.md) (autenticação e entrada no catálogo), [design system](../design/design-system.md), [diretrizes frontend](../design/frontend-guidelines.md) e [produto](../design/product.md).
