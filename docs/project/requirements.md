@@ -104,7 +104,9 @@ Dados de referência:
 - [ ] Consumo de crédito protegido por transação e bloqueio de concorrência.
 
 ### CHECK-03 — Resumo
-- [ ] Exibe empresa, endereço cadastrado, itens, preços, pagamento e total.
+- [ ] Exibe empresa, endereço de entrega obrigatório informado para o pedido, itens, preços, pagamento e total.
+- [ ] Endereço de entrega é salvo como snapshot estruturado: `zipcode`, `state`, `city`, `district`, `address` e `address_extra`; os cinco primeiros são obrigatórios e `address_extra` é opcional.
+- [ ] `state` aceita apenas siglas válidas de UFs brasileiras; cidade permanece texto livre.
 - [ ] Valida bloqueio, estoque, preço, condição e crédito antes de confirmar.
 - [ ] Falha não cria pedido nem altera estoque/crédito.
 

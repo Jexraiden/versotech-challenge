@@ -1,7 +1,7 @@
 # INC-05 — Checkout e pedidos transacionais
 
-**Status:** Não iniciado  
-**Fase atual:** Planejamento  
+**Status:** Aprovado pelo desenvolvedor; commit manual pendente
+**Fase atual:** Aprovação concluída; aguardando commit manual
 **Dependências:** INC-04 aprovado (itens do carrinho); INC-02 aprovado (autorização); INC-03 aprovado (preços comerciais); usa as garantias transacionais definidas em requirements e system design.
 
 **Especificações de UI/UX e frontend:** [checkout](../design/screens/checkout.md), [fluxos de usuário](../design/user-flows.md) (checkout e confirmação), [design system](../design/design-system.md) e [diretrizes frontend](../design/frontend-guidelines.md). A tela de [pedidos](../design/screens/orders.md) descreve melhoria opcional fora dos critérios obrigatórios do MVP.
@@ -20,11 +20,11 @@ Bloqueada não compra; PIX não consome crédito; boletos consomem total final; 
 
 ### Critérios de aceite de UI/UX
 
-- [ ] Checkout em página única revisa itens/totais e apresenta somente condições permitidas pelo backend, incluindo restrições comerciais sem inventar opções de pagamento.
-- [ ] Confirmação mostra estado de envio e impede cliques repetidos; falha preserva dados e explica o próximo passo; sucesso só é indicado após resposta confirmada e apresenta identificador/resumo.
-- [ ] Revisão inclui empresa, endereço cadastrado quando disponível, itens, condição e total, conforme dados existentes; erros de validação são associados a uma ação compreensível.
-- [ ] Checkout oferece somente PIX, Boleto 28 dias e Boleto 28/56 dias quando elegíveis; não solicita dados de pagamento nem sugere processamento por gateway.
-- [ ] Checkout é utilizável em desktop e smartphone, com rótulos, foco visível e feedback que não depende apenas de cor.
+- [x] Checkout em página única revisa itens/totais e apresenta somente condições permitidas pelo backend, incluindo restrições comerciais sem inventar opções de pagamento.
+- [x] Confirmação mostra estado de envio e impede cliques repetidos; falha preserva dados e explica o próximo passo; sucesso só é indicado após resposta confirmada e apresenta identificador/resumo.
+- [x] Revisão inclui empresa, endereço de entrega estruturado obrigatório informado pelo usuário (CEP, UF, Cidade, Bairro e Logradouro; Complemento opcional), itens, condição e total; erros de validação são associados a uma ação compreensível.
+- [x] Checkout oferece somente PIX, Boleto 28 dias e Boleto 28/56 dias quando elegíveis; não solicita dados de pagamento nem sugere processamento por gateway.
+- [x] Checkout é utilizável em desktop e smartphone, com rótulos, foco visível e feedback que não depende apenas de cor.
 
 ## Fora do escopo
 
@@ -36,19 +36,24 @@ Priorizar race conditions, deadlocks, colisão de checkout_key, reenvio com payl
 
 ## Evidências para aprovação
 
-- [ ] Implementação concluída e explicada
-- [ ] Revisão adversarial em sessão separada, com achados classificados por severidade
-- [ ] Achados críticos/altos corrigidos ou explicitamente aceitos pelo desenvolvedor
-- [ ] Revisão manual aprovada
-- [ ] Testes formais executados com comandos e resultados registrados
-- [ ] Critérios de aceitação validados
-- [ ] Aprovação explícita do desenvolvedor
+- [x] Implementação concluída e explicada
+- [x] Revisão adversarial realizada; revisão adicional após o ajuste visual dispensada pelo desenvolvedor
+- [x] Achados críticos/altos corrigidos ou explicitamente aceitos pelo desenvolvedor (nenhum achado crítico/alto; achado visual baixo corrigido)
+- [x] Revisão manual aprovada pelo desenvolvedor
+- [x] Testes formais executados com comandos e resultados registrados
+- [x] Critérios de aceitação validados pelo desenvolvedor e pela suíte automatizada, com a limitação de concorrência abaixo reconhecida
+- [x] Aprovação explícita do desenvolvedor
 - [ ] Commit manual após aprovação
+
+### Limitação conhecida de validação
+
+A suíte PHPUnit padrão usa SQLite em memória e não comprova a contenção dos locks (`lockForUpdate`) no PostgreSQL. Os testes atuais cobrem regras e reenvios sequenciais, mas a disputa simultânea por estoque, crédito ou `checkout_key` permanece **não verificada**. Um teste confiável dessa garantia exigiria uma suíte de integração PostgreSQL com processos/conexões independentes; essa validação foi adiada e deve ser apresentada como limitação, não como requisito atendido.
 
 ## Registro da execução
 
-**Arquivos alterados:** _preencher_  
-**Achados da revisão:** _preencher_  
-**Testes e resultados:** _preencher_  
-**Pendências / decisões:** _preencher_  
-**Aprovação:** _pendente_
+**Arquivos alterados:** implementação de checkout/pedidos, migrations, telas e testes conforme árvore de trabalho; ajuste de altura dos campos em `resources/js/Pages/Checkout/Checkout.module.css`.  
+**Achados da revisão:** um achado Low sobre campos de formulário excessivamente altos foi corrigido. O desenvolvedor dispensou nova revisão adversarial após a correção.  
+**Testes e resultados:** `docker compose run --rm --no-deps laravel.test php artisan test` — 57 testes passaram (578 assertions), em 37,82 s. Uma tentativa anterior com `--no-build` não foi aceita pela versão instalada do Docker Compose (`unknown flag: --no-build`).  
+**Verificações manuais:** o desenvolvedor confirmou o funcionamento da tela e a realização das verificações manuais.  
+**Pendências / decisões:** concorrência real em PostgreSQL permanece não verificada; limitação reconhecida pelo desenvolvedor. Commit ainda não realizado; aguarda ação manual do desenvolvedor.  
+**Aprovação:** aprovada explicitamente pelo desenvolvedor em 16/11/2026. **Commit:** pendente.

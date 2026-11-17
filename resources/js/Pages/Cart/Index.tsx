@@ -74,7 +74,7 @@ export default function Index({ cart, companyName, flash }: Props) {
                     <div><span>Subtotal</span><strong>{formatPrice(cart.subtotal_cents)}</strong></div>
                     <div className={styles.total}><span>Total atual</span><strong>{formatPrice(cart.total_cents)}</strong></div>
                     {cart.items.some(item => !item.valid) && <p className={styles.issue}>Remova ou ajuste os itens com impedimentos para continuar.</p>}
-                    <button className={primaryButton.primaryButton} type="button" disabled title="O checkout será disponibilizado no próximo incremento">Continuar para checkout</button>
+                    <Link className={primaryButton.primaryButton} href="/checkout" aria-disabled={cart.items.some(item => !item.valid)} onClick={event => { if (cart.items.some(item => !item.valid)) event.preventDefault(); }}>Continuar para checkout</Link>
                 </aside>
             </div>}
         </div>

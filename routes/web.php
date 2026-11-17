@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Catalog\CatalogController;
 use App\Http\Controllers\Cart\CartController;
+use App\Http\Controllers\Orders\CheckoutController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function (): void {
@@ -28,4 +29,7 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/cart/items/{product}', [CartController::class, 'add'])->block(10, 10)->name('cart.add');
     Route::patch('/cart/items/{product}', [CartController::class, 'update'])->block(10, 10)->name('cart.update');
     Route::delete('/cart/items/{product}', [CartController::class, 'remove'])->block(10, 10)->name('cart.remove');
+    Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
+    Route::post('/orders', [CheckoutController::class, 'store'])->block(10, 10)->name('orders.store');
+    Route::get('/orders/{order}', [CheckoutController::class, 'order'])->whereNumber('order')->name('orders.show');
 });

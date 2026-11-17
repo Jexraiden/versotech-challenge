@@ -1,0 +1,42 @@
+.page {
+    width: min(760px, 100%);
+    padding: 28px 24px 48px;
+    background: #fff;
+    border: 1px solid #6b7280;
+    border-radius: 8px;
+}
+
+.page h1 {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+}
+
+.page section {
+    margin-top: 24px;
+}
+
+.page h2 {
+    font-size: 1.1rem;
+}
+
+.page ul {
+    display: grid;
+    gap: 10px;
+    padding: 0;
+    list-style: none;
+}
+
+.page li {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.status {
+    color: #047857;
+    font-weight: 700;
+}
+
+.total {
+    font-size: 1.2rem;
+    font-weight: 700;
+}

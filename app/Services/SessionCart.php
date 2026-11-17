@@ -47,9 +47,9 @@ class SessionCart
         $products = Product::query()->with([
             'inventory',
             'promotions',
-            'priceTableItems' => fn ($query) => $query->where('price_table_id', $user->company->price_table_id),
+            'priceTableItems' => fn($query) => $query->where('price_table_id', $user->company->price_table_id),
         ])->whereIn('id', array_keys($items))->get()->keyBy('id');
-        $missingIds = array_diff(array_keys($items), $products->keys()->map(fn ($id): int => (int) $id)->all());
+        $missingIds = array_diff(array_keys($items), $products->keys()->map(fn($id): int => (int) $id)->all());
         foreach ($missingIds as $missingId) unset($items[$missingId]);
         if ($missingIds !== []) $request->session()->put('cart', $items);
         $presented = [];
@@ -75,9 +75,14 @@ class SessionCart
 
             if ($issue !== null) {
                 $presented[] = [
-                    'id' => $product->id, 'sku' => $product->sku, 'name' => $product->name,
-                    'quantity' => $quantity, 'valid' => false, 'can_update' => $product->is_active && $price !== null && $stock > 0,
-                    'stock_quantity' => $stock, 'issue' => $issue,
+                    'id' => $product->id,
+                    'sku' => $product->sku,
+                    'name' => $product->name,
+                    'quantity' => $quantity,
+                    'valid' => false,
+                    'can_update' => $product->is_active && $price !== null && $stock > 0,
+                    'stock_quantity' => $stock,
+                    'issue' => $issue,
                 ];
                 continue;
             }
@@ -90,12 +95,17 @@ class SessionCart
             $savings += max(0, ((int) $price->regular_price_cents * $quantity) - $lineTotal);
             $itemCount += $quantity;
             $presented[] = [
-                'id' => $product->id, 'sku' => $product->sku, 'name' => $product->name,
-                'quantity' => $quantity, 'valid' => true, 'stock_quantity' => $stock,
+                'id' => $product->id,
+                'sku' => $product->sku,
+                'name' => $product->name,
+                'quantity' => $quantity,
+                'valid' => true,
+                'stock_quantity' => $stock,
                 'regular_price_cents' => (int) $price->regular_price_cents,
                 'wholesale_price_cents' => $price->wholesale_price_cents === null ? null : (int) $price->wholesale_price_cents,
                 'wholesale_min_qty' => $price->wholesale_min_qty === null ? null : (int) $price->wholesale_min_qty,
-                'unit_price_cents' => $quote['unit_price_cents'], 'line_total_cents' => $lineTotal,
+                'unit_price_cents' => $quote['unit_price_cents'],
+                'line_total_cents' => $lineTotal,
             ];
         }
 
@@ -117,7 +127,7 @@ class SessionCart
         }
         $stock = (int) ($product->inventory?->quantity ?? 0);
         if ($stock < 1 || $quantity > $stock) {
-            throw ValidationException::withMessages(['quantity' => 'A quantidade solicitada excede o estoque disponível. Há '.$stock.' unidades.']);
+            throw ValidationException::withMessages(['quantity' => 'A quantidade solicitada excede o estoque disponível. Há ' . $stock . ' unidades.']);
         }
         $hasPrice = $product->priceTableItems()->where('price_table_id', $user->company->price_table_id)->exists();
         if (! $hasPrice) {
@@ -126,7 +136,7 @@ class SessionCart
     }
 
     /** @return array<int, int> */
-    private function items(Request $request): array
+    public function items(Request $request): array
     {
         $items = $request->session()->get('cart', []);
         if (! is_array($items)) return [];

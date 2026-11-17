@@ -8,8 +8,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
-    'tax_id', 'legal_name', 'trade_name', 'city', 'state', 'price_table_id',
-    'credit_limit_cents', 'credit_used_cents', 'is_blocked', 'block_reason',
+    'tax_id',
+    'legal_name',
+    'trade_name',
+    'city',
+    'state',
+    'price_table_id',
+    'credit_limit_cents',
+    'credit_used_cents',
+    'is_blocked',
+    'block_reason',
 ])]
 class Company extends Model
 {
@@ -30,5 +38,10 @@ class Company extends Model
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
     }
 }

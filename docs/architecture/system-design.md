@@ -1,7 +1,7 @@
 # System Design — Versotech B2B Commerce
 
-**Status:** INC-04 concluído e aprovado; implementação dos INC-05 e INC-06 pendente
-**Atualizado em:** 15/11/2026
+**Status:** INC-04 e INC-05 concluídos e aprovados; INC-06 pendente
+**Atualizado em:** 16/11/2026
 **Requisitos:** [requirements.md](../project/requirements.md)
 **Decisões:** [ADRs](../adr/)
 
@@ -63,10 +63,12 @@ erDiagram
 | `price_table_items` | price_table_id, product_id, regular_price_cents, wholesale_price_cents nullable, wholesale_min_qty nullable |
 | `promotions` | id (preservado da origem), product_id, discount_percent (`NUMERIC(7,4)`), starts_on, ends_on |
 | `payment_terms` | code (chave primária textual), description, minimum_amount_cents, surcharge_percent (`NUMERIC(7,4)`), is_credit |
-| `orders` | id, company_id, user_id, payment_term_id, checkout_key único, status, subtotal_cents, surcharge_cents, total_cents |
+| `orders` | id, company_id, user_id, payment_term_id, checkout_key único, checkout_fingerprint, zipcode, state, city, district, address, address_extra nullable (snapshot de entrega), status, subtotal_cents, surcharge_cents, total_cents |
 | `order_items` | order_id, product_id, sku_snapshot, name_snapshot, quantity, unit_price_cents, line_total_cents |
 
 **Integridade:** chave única para `(price_table_id, product_id)`; estoque não negativo; quantidades positivas; chaves estrangeiras; índices de busca e associação. Todos os valores monetários são inteiros em centavos (`BIGINT` no PostgreSQL). A estrutura exata das migrations pode ajustar nomes sem alterar as regras.
+
+Endereços de entrega são salvos como snapshot estruturado. A migration aditiva mantém os campos anuláveis no banco para permitir leitura de pedidos anteriores sem endereço estruturado; novos pedidos exigem `zipcode`, `state`, `city`, `district` e `address`, com `address_extra` opcional. O campo textual legado `delivery_address` foi removido.
 
 ### Convenções de nomenclatura e dinheiro
 
@@ -145,7 +147,7 @@ sequenceDiagram
     participant U as React/Inertia
     participant L as Laravel
     participant D as PostgreSQL
-    U->>L: POST /orders (payment_term, checkout_key)
+    U->>L: POST /orders (payment_term, zipcode, state, city, district, address, address_extra, checkout_key)
     L->>L: Autenticar e validar entrada
     L->>D: BEGIN
     L->>D: Verificar tentativa existente
@@ -223,4 +225,4 @@ Para a demonstração, usar os três usuários de teste, destacando as diferenç
 | Autenticação simplificada e riscos | [ADR-005](../adr/005-auth-security-scope.md) |
 | Ausência de imagens no MVP | [ADR-006](../adr/006-product-images.md) |
 
-**Estado da implementação:** INC-01 fornece a fundação Laravel/Sail, migrations e seeders reproduzíveis dos dados comerciais e usuários demo, conversão decimal exata para centavos e a página inicial Inertia. INC-02 implementa autenticação web por sessão, limitação de tentativas e contexto da empresa autenticada. INC-03 implementa catálogo e detalhe via Inertia, busca, filtros, paginação e precificação por tabela/atacado/promoção, com cálculos em centavos. INC-04 implementa carrinho em sessão, adição pela lista do catálogo e recálculo de preço/estoque no servidor; foi aprovado e concluído. INC-05 e INC-06 permanecem pendentes.
+**Estado da implementação:** INC-01 fornece a fundação Laravel/Sail, migrations e seeders reproduzíveis dos dados comerciais e usuários demo, conversão decimal exata para centavos e a página inicial Inertia. INC-02 implementa autenticação web por sessão, limitação de tentativas e contexto da empresa autenticada. INC-03 implementa catálogo e detalhe via Inertia, busca, filtros, paginação e precificação por tabela/atacado/promoção, com cálculos em centavos. INC-04 implementa carrinho em sessão, adição pela lista do catálogo e recálculo de preço/estoque no servidor; foi aprovado e concluído. INC-05 implementa checkout e pedidos transacionais; foi aprovado pelo desenvolvedor. A concorrência real no PostgreSQL permanece não verificada, conforme limitação registrada no incremento. INC-06 permanece pendente.

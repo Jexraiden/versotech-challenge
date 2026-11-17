@@ -304,16 +304,16 @@ O resultado verificável foi a fundação funcionando, com importação reproduz
 - [x] INC-02: login, logout e autorização por empresa.
 - [x] INC-03: catálogo, busca, detalhe, preços por empresa, atacado e promoções.
 - [x] INC-04: carrinho em sessão, edição de quantidades e recálculo de preços.
-- [ ] Iniciar INC-05: condições de pagamento, validação de estoque e crédito.
-- [ ] Aplicar revisão adversarial e revisão manual aos incrementos concluídos.
-- [ ] Executar os testes pertinentes e registrar as limitações.
+- [x] Iniciar INC-05: condições de pagamento, validação de estoque e crédito.
+- [x] Aplicar revisão adversarial e revisão manual aos incrementos concluídos.
+- [x] Executar os testes pertinentes e registrar as limitações.
 Resultado esperado: usuário entra na empresa correta, navega pelo catálogo, vê preços comerciais corretos e prepara um pedido.
 
 ### Terça-feira — 17/11: fechar o pedido e entregar
 
 **Meta:** concluir o caminho crítico e validar a aplicação como alguém que acabou de receber o repositório.
 
-- [ ] Finalizar INC-05: confirmação transacional, baixa de estoque, crédito e idempotência.
+- [x] Finalizar INC-05: confirmação transacional, baixa de estoque, crédito e idempotência.
 - [ ] Finalizar INC-06: estados de erro, usabilidade e ajustes essenciais de responsividade.
 - [ ] Executar suíte de testes, typecheck e build.
 - [ ] Validar ao menos um fluxo de compra ponta a ponta, incluindo rejeições esperadas.
