@@ -82,6 +82,7 @@ Não use `migrate:fresh`, `db:wipe` ou `down -v` em um banco com dados a preserv
 - [ADRs](docs/adr/README.md)
 - [Incrementos e gates](docs/implementation/README.md)
 - [Design e UX](docs/design/README.md)
+- [Melhorias futuras e trade-offs do MVP](docs/design/roadmap.md)
 
 ## Estado da implementação
 
