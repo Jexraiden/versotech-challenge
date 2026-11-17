@@ -18,7 +18,7 @@ Permitir localizar produtos e comprar diretamente da lista, sem abrir detalhes.
 
 ## Compra e barra fixa
 
-- Adicionar mantém usuário no catálogo; sucesso mostra notificação discreta com indicador, título, mensagem e opção para dispensar; falhas continuam visíveis e acessíveis.
+- Adicionar mantém usuário no catálogo; sucesso mostra notificação discreta sem overlay, com indicador, título `Sucesso`, texto `Item adicionado ao carrinho` e opção para dispensar; falhas continuam visíveis e acessíveis.
 - Abrir o detalhe permite consultar informações do produto; adicionar ao carrinho ocorre somente na lista do catálogo.
 - Se item já existe, incrementar quantidade.
 - Não exibir barra fixa inferior de resumo do carrinho.

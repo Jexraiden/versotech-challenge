@@ -140,4 +140,15 @@ class CatalogTest extends TestCase
                 ->where('product.wholesale_price_cents', 276)
                 ->where('product.wholesale_min_qty', 50));
     }
+
+    public function test_authenticated_pages_share_navigation_categories_and_current_cart_count(): void
+    {
+        $buyer = User::where('email', 'bompreco@example.test')->firstOrFail();
+
+        $this->actingAs($buyer)->post(route('cart.add', 1001), ['quantity' => 3])->assertRedirect();
+        $this->get(route('catalog.show', 1001))->assertInertia(fn (Assert $page) => $page
+            ->where('auth.user.name', $buyer->name)
+            ->where('navigation.cart.item_count', 3)
+            ->where('navigation.categories', fn ($categories) => $categories->isNotEmpty()));
+    }
 }

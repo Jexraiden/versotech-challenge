@@ -1,8 +1,6 @@
 import { Link, router } from '@inertiajs/react';
 import { useState } from 'react';
-import type { FormEvent } from 'react';
 import pageChrome from '../../Components/PageChrome.module.css';
-import primaryButton from '../../Components/PrimaryButton.module.css';
 import styles from './Catalog.module.css';
 
 type Product = {
@@ -14,49 +12,27 @@ type Product = {
 type LinkItem = { url: string | null; label: string; active: boolean };
 type Props = {
     products: { data: Product[]; links: LinkItem[]; current_page: number; last_page: number; total: number };
-    categories: string[]; filters: { search: string; category: string }; companyName: string;
-    cart: { items: unknown[]; item_count: number; total_cents: number };
+    filters: { search: string; category: string }; companyName: string;
     flash: { cart_success?: string | null };
 };
 
 const formatPrice = (cents: number | null) => cents === null ? 'Indisponível' : new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cents / 100);
 
-export default function Index({ products, categories, filters, companyName, cart, flash }: Props) {
-    const [search, setSearch] = useState(filters.search);
-    const [category, setCategory] = useState(filters.category);
+export default function Index({ products, filters, companyName, flash }: Props) {
     const [quantity, setQuantity] = useState<Record<number, number>>({});
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [adding, setAdding] = useState<number | null>(null);
-    const [loggingOut, setLoggingOut] = useState(false);
-    const submitSearch = (event: FormEvent) => {
-        event.preventDefault();
-        setError('');
-        router.get('/catalog', { search, category }, {
-            preserveState: true,
-            preserveScroll: true,
-            onStart: () => setLoading(true),
-            onFinish: () => setLoading(false),
-            onError: () => setError('Não foi possível atualizar a busca. Confira os filtros e tente novamente.'),
-        });
-    };
+    const [dismissed, setDismissed] = useState(false);
 
     return <main className={pageChrome.pageShell}>
         <div className={styles.catalog}>
             <header className={styles.header}>
                 <div><p className={pageChrome.eyebrow}>Catálogo · {companyName}</p><h1>Produtos</h1><p>Consulte preços e disponibilidade da sua empresa.</p></div>
-                <button className={primaryButton.primaryButton} type="button" disabled={loggingOut} onClick={() => router.post('/logout', {}, { onStart: () => setLoggingOut(true), onFinish: () => setLoggingOut(false) })}>{loggingOut ? 'Saindo…' : 'Sair'}</button>
             </header>
-            <form className={styles.filters} onSubmit={submitSearch} aria-busy={loading}>
-                <label className={styles.search}>Buscar por nome, SKU ou EAN<input value={search} onChange={event => setSearch(event.target.value)} placeholder="Ex.: café, SKU ou EAN" /></label>
-                <label>Categoria<select value={category} onChange={event => setCategory(event.target.value)}><option value="">Todas</option>{categories.map(item => <option key={item}>{item}</option>)}</select></label>
-                <button className={primaryButton.primaryButton} type="submit" disabled={loading}>{loading ? 'Buscando…' : 'Buscar'}</button>
-            </form>
             {error && <p className={styles.error} role="alert">{error}</p>}
-            {flash.cart_success && <p className={styles.success} role="status">{flash.cart_success}</p>}
-            {loading && <p className={styles.loading} role="status">Atualizando catálogo…</p>}
+            {flash.cart_success && !dismissed && <aside className={styles.toast} role="status" aria-live="polite"><span className={styles.toastIcon} aria-hidden="true">✓</span><div><strong>Sucesso</strong><p>Item adicionado ao carrinho</p></div><button type="button" aria-label="Dispensar notificação" onClick={() => setDismissed(true)}>×</button></aside>}
             <p className={styles.count} aria-live="polite">{products.total} produtos encontrados</p>
-            {products.data.length === 0 ? <section className={styles.empty}><h2>{filters.search || filters.category ? 'Nenhum produto encontrado' : 'Catálogo vazio'}</h2><p>Tente ajustar a busca ou escolher outra categoria.</p></section> : <div className={styles.productList} aria-busy={loading || adding !== null}>
+            {products.data.length === 0 ? <section className={styles.empty}><h2>{filters.search || filters.category ? 'Nenhum produto encontrado' : 'Catálogo vazio'}</h2><p>Tente ajustar a busca ou escolher outra categoria.</p></section> : <div className={styles.productList} aria-busy={adding !== null}>
                 {products.data.map(product => <article className={styles.product} key={product.id}>
                     <div className={styles.productInfo}><span className={styles.code}>{product.sku} · {product.ean}</span><h2><Link href={`/catalog/${product.id}`}>{product.name}</Link></h2><p>{product.brand} · {product.category}</p></div>
                     <div className={styles.price}>
@@ -72,7 +48,7 @@ export default function Index({ products, categories, filters, companyName, cart
                             setError('');
                             router.post(`/cart/items/${product.id}`, { quantity: quantity[product.id] ?? 1 }, {
                                 preserveScroll: true,
-                                onStart: () => setAdding(product.id),
+                                onStart: () => { setAdding(product.id); setDismissed(false); },
                                 onFinish: () => setAdding(null),
                                 onError: errors => setError(errors.quantity ?? 'Não foi possível adicionar este produto. Atualize a página e tente novamente.'),
                             });
@@ -85,13 +61,9 @@ export default function Index({ products, categories, filters, companyName, cart
                 const label = isPrevious ? '←' : isNext ? '→' : link.label;
                 const accessibleLabel = isPrevious ? 'Página anterior' : isNext ? 'Próxima página' : `Página ${link.label}`;
 
-                return <button key={`${index}-${link.label}`} type="button" disabled={!link.url || link.active || loading || adding !== null} aria-label={accessibleLabel} aria-current={link.active ? 'page' : undefined} onClick={() => link.url && router.visit(link.url, { preserveScroll: true })}>{label}</button>;
+                return <button key={`${index}-${link.label}`} type="button" disabled={!link.url || link.active || adding !== null} aria-label={accessibleLabel} aria-current={link.active ? 'page' : undefined} onClick={() => link.url && router.visit(link.url, { preserveScroll: true })}>{label}</button>;
             })}</nav>
         </div>
-        {cart.items.length > 0 && <aside className={styles.cartBar} aria-label="Resumo do carrinho">
-            <span>{cart.item_count} {cart.item_count === 1 ? 'unidade' : 'unidades'} · {formatPrice(cart.total_cents)}</span>
-            <Link href="/cart" className={styles.cartLink}>Ver carrinho</Link>
-        </aside>}
     </main>;
 }
 

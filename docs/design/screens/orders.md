@@ -4,7 +4,7 @@
 
 ## Histórico
 
-Listar todos os pedidos criados pelo usuário autenticado, sem filtros adicionais, paginados pelo servidor e limitados à sua empresa. Mostrar identificador, data, total e situação conforme dados disponíveis; permitir acessar detalhes. Os detalhes mantêm a autorização por empresa existente.
+Listar todos os pedidos criados pelo usuário autenticado, sem filtros adicionais, paginados pelo servidor e limitados à sua empresa e ao usuário. Mostrar identificador, data, total e situação conforme dados disponíveis; permitir acessar detalhes. Os detalhes mantêm a autorização por empresa existente.
 
 ## Detalhes
 
@@ -12,7 +12,7 @@ Exibir produtos, quantidades, preços, descontos, condição de pagamento e situ
 
 ## UX
 
-Estados de carregamento, ausência de pedidos, erro, acesso negado e navegação entre páginas. Não inventar status nem informações de transporte.
+O acesso à listagem ocorre pelo menu da conta no cabeçalho global. Estados de carregamento, ausência de pedidos, erro, acesso negado e navegação entre páginas. Não inventar status nem informações de transporte.
 
 ## Fora do MVP
 

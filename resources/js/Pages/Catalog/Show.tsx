@@ -1,4 +1,3 @@
-import { Link } from '@inertiajs/react';
 import pageChrome from '../../Components/PageChrome.module.css';
 import styles from './Catalog.module.css';
 
@@ -11,7 +10,6 @@ const formatPrice = (cents: number | null) => cents === null ? 'Sem preço aplic
 
 export default function Show({ product }: { product: Product }) {
     return <main className={pageChrome.pageShell}><article className={styles.detail}>
-        <Link href="/catalog">← Voltar ao catálogo</Link>
         <p className={pageChrome.eyebrow}>{product.sku} · {product.ean}</p>
         <h1>{product.name}</h1>
         <p>{product.description || 'Descrição não informada.'}</p>

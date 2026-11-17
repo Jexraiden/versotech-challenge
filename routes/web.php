@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Catalog\CatalogController;
 use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Orders\CheckoutController;
+use App\Http\Controllers\Orders\OrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function (): void {
@@ -31,5 +32,6 @@ Route::middleware('auth')->group(function (): void {
     Route::delete('/cart/items/{product}', [CartController::class, 'remove'])->block(10, 10)->name('cart.remove');
     Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
     Route::post('/orders', [CheckoutController::class, 'store'])->block(10, 10)->name('orders.store');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [CheckoutController::class, 'order'])->whereNumber('order')->name('orders.show');
 });

@@ -41,12 +41,11 @@ export default function Index({ cart, companyName, flash }: Props) {
         <div className={styles.cartPage} aria-busy={busy}>
             <header className={styles.header}>
                 <div><p className={pageChrome.eyebrow}>Carrinho · {companyName}</p><h1>Seu pedido</h1><p>Confira os itens e os valores atuais para sua empresa.</p></div>
-                <Link className={styles.continueShopping} href="/catalog">Continuar comprando</Link>
             </header>
             {flash.cart_success && <p className={styles.success} role="status">{flash.cart_success}</p>}
             {cart.notice && <p className={styles.issue} role="status">{cart.notice}</p>}
             {error && <p className={styles.error} role="alert">{error}</p>}
-            {cart.items.length === 0 ? <section className={styles.empty}><h2>Seu carrinho está vazio</h2><p>Explore o catálogo e adicione produtos para montar seu pedido.</p><Link className={primaryButton.primaryButton} href="/catalog">Voltar ao catálogo</Link></section> : <div className={styles.layout}>
+            {cart.items.length === 0 ? <section className={styles.empty}><h2>Seu carrinho está vazio</h2><p>Explore o catálogo pelo cabeçalho e adicione produtos para montar seu pedido.</p></section> : <div className={styles.layout}>
                 <section className={styles.items} aria-label="Itens do carrinho">
                     {cart.items.map(item => <article className={styles.item} key={item.id}>
                         <div className={styles.itemInfo}><span>{item.sku ?? `Produto ${item.id}`}</span><h2>{item.name ?? 'Produto indisponível'}</h2>
