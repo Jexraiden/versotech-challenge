@@ -3,6 +3,7 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import pageChrome from '../../Components/PageChrome.module.css';
 import primaryButton from '../../Components/PrimaryButton.module.css';
+import { parseQuantity } from '../../quantity';
 import styles from './Cart.module.css';
 
 type CartLine = {
@@ -19,13 +20,15 @@ type Props = {
 const formatPrice = (cents: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cents / 100);
 
 export default function Index({ cart, companyName, flash }: Props) {
-    const [quantities, setQuantities] = useState<Record<number, number>>({});
+    const [quantities, setQuantities] = useState<Record<number, string>>({});
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState('');
     const update = (event: FormEvent, item: CartLine) => {
         event.preventDefault();
+        const selectedQuantity = parseQuantity(quantities[item.id] ?? String(item.quantity), item.stock_quantity ?? item.quantity);
+        if (selectedQuantity === null) return;
         setError('');
-        router.patch(`/cart/items/${item.id}`, { quantity: quantities[item.id] ?? item.quantity }, {
+        router.patch(`/cart/items/${item.id}`, { quantity: selectedQuantity }, {
             preserveScroll: true,
             onStart: () => setBusy(true),
             onFinish: () => setBusy(false),
@@ -47,7 +50,11 @@ export default function Index({ cart, companyName, flash }: Props) {
             {error && <p className={styles.error} role="alert">{error}</p>}
             {cart.items.length === 0 ? <section className={styles.empty}><h2>Seu carrinho está vazio</h2><p>Explore o catálogo pelo cabeçalho e adicione produtos para montar seu pedido.</p></section> : <div className={styles.layout}>
                 <section className={styles.items} aria-label="Itens do carrinho">
-                    {cart.items.map(item => <article className={styles.item} key={item.id}>
+                    {cart.items.map(item => {
+                        const quantityInput = quantities[item.id] ?? String(item.quantity);
+                        const selectedQuantity = parseQuantity(quantityInput, item.stock_quantity ?? item.quantity);
+
+                        return <article className={styles.item} key={item.id}>
                         <div className={styles.itemInfo}><span>{item.sku ?? `Produto ${item.id}`}</span><h2>{item.name ?? 'Produto indisponível'}</h2>
                             {!item.valid && <p className={styles.issue} role="status">{item.issue}</p>}
                             {item.valid && <p>
@@ -59,13 +66,14 @@ export default function Index({ cart, companyName, flash }: Props) {
                         <div className={styles.controls}>
                             {(item.valid || item.can_update) && <form onSubmit={event => update(event, item)}>
                                 <label htmlFor={`quantity-${item.id}`}>Quantidade</label>
-                                <input id={`quantity-${item.id}`} type="number" min="1" step="1" max={item.stock_quantity ?? item.quantity} value={quantities[item.id] ?? item.quantity} onChange={event => { const parsed = Number(event.target.value); setQuantities({ ...quantities, [item.id]: Number.isFinite(parsed) ? Math.max(1, parsed) : 1 }); }} />
-                                <button type="submit" disabled={busy}>Atualizar</button>
+                                <input id={`quantity-${item.id}`} type="text" inputMode="numeric" value={quantityInput} aria-invalid={selectedQuantity === null} onChange={event => setQuantities(current => ({ ...current, [item.id]: event.target.value }))} />
+                                <button type="submit" disabled={busy || selectedQuantity === null}>Atualizar</button>
                             </form>}
                             {item.valid && <strong>{formatPrice(item.line_total_cents!)}</strong>}
                             <button className={styles.remove} type="button" disabled={busy} onClick={() => remove(item)}>Remover</button>
                         </div>
-                    </article>)}
+                    </article>;
+                    })}
                 </section>
                 <aside className={styles.summary} aria-label="Resumo financeiro">
                     <h2>Resumo</h2><div><span>Unidades válidas</span><strong>{cart.item_count}</strong></div>

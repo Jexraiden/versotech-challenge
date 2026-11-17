@@ -1,6 +1,7 @@
 import { Link, router } from '@inertiajs/react';
 import { useState } from 'react';
 import pageChrome from '../../Components/PageChrome.module.css';
+import { parseQuantity } from '../../quantity';
 import styles from './Catalog.module.css';
 
 type Product = {
@@ -48,7 +49,7 @@ export default function Index({ products, filters, companyName, flash }: Props) 
                             {product.wholesale_price_cents !== null && <><span>Atacado</span><strong>{formatPrice(product.wholesale_price_cents)}</strong><span>a partir de {product.wholesale_min_qty}</span></>}
                         </div>
                         <span className={product.available ? styles.available : styles.unavailable}>{product.available ? `${product.stock_quantity} disponíveis` : 'Indisponível'}</span>
-                        <label className={styles.quantity}>Quantidade<input type="number" min="1" step="1" max={Math.max(product.stock_quantity, 1)} value={quantityInput} disabled={!product.available} aria-invalid={quantityInput !== '' && selectedQuantity === null} onChange={event => setQuantity(current => ({ ...current, [product.id]: event.target.value }))} /></label>
+                        <label className={styles.quantity}>Quantidade<input type="text" inputMode="numeric" value={quantityInput} disabled={!product.available} aria-invalid={selectedQuantity === null} onChange={event => setQuantity(current => ({ ...current, [product.id]: event.target.value }))} /></label>
                         <button className={styles.addButton} type="button" disabled={!product.available || selectedQuantity === null || adding !== null} onClick={() => {
                             if (selectedQuantity === null) return;
                             setError('');
@@ -72,12 +73,6 @@ export default function Index({ products, filters, companyName, flash }: Props) 
             })}</nav>
         </div>
     </main>;
-}
-
-function parseQuantity(value: string, stockQuantity: number): number | null {
-    if (!/^[1-9]\d*$/.test(value)) return null;
-    const parsed = Number(value);
-    return Number.isSafeInteger(parsed) && parsed <= stockQuantity ? parsed : null;
 }
 
 function getUnitPrice(product: Product, quantity: number): number | null {
