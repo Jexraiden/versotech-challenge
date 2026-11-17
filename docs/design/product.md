@@ -15,10 +15,11 @@ Plataforma de compras B2B para pessoas que trabalham em lojas compradoras. O usu
 - Autenticação e identificação do contexto da empresa compradora.
 - Catálogo em **lista compacta sem imagens**, com busca por nome, SKU ou EAN, filtro por categoria, paginação, informações comerciais e compra direta da lista.
 - Página de detalhes do produto para consultar informações comerciais; adicionar ao carrinho continua disponível somente na lista do catálogo.
-- Adição ao carrinho sem sair do catálogo; barra fixa de resumo quando há itens.
+- Navegação superior global fixa durante a rolagem, com acesso ao catálogo, busca/filtro, conta e carrinho.
+- Adição ao carrinho sem sair do catálogo; notificação de sucesso discreta após inclusão.
 - Página dedicada de carrinho, com edição de quantidades, remoção e atualização de totais.
 - Checkout em página única com revisão, seleção de condição de pagamento permitida e confirmação do pedido.
-- Confirmação do pedido. Histórico de pedidos com detalhes consultáveis é uma melhoria desejável se houver tempo, mas não é requisito do MVP.
+- Confirmação do pedido e listagem paginada dos pedidos criados pelo usuário autenticado, sem filtros adicionais.
 - Responsividade desktop/mobile.
 
 ## Regras de negócio a respeitar

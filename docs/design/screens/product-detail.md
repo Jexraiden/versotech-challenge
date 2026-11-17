@@ -13,7 +13,7 @@ Consultar as informações comerciais disponíveis de um produto antes de decidi
 
 - O detalhe é informativo; adicionar ao carrinho continua sendo uma ação exclusiva da lista do catálogo.
 - Produto inativo, sem preço aplicável ou sem estoque não deve ser apresentado como comprável.
-- Oferecer retorno claro à lista do catálogo.
+- Usar o link `Catálogo` do cabeçalho global para retornar à lista; não repetir link de retorno na página.
 - Incluir estados de carregamento, erro e produto indisponível.
 
 ## Layout

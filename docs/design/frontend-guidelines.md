@@ -27,3 +27,4 @@ Estas diretrizes complementam o design system e os critérios de cada incremento
 - Adotar abordagem mobile-first; preservar experiência desktop cuidadosa, prioritária para o uso B2B.
 - Usar layouts flexíveis e pontos de quebra conforme o conteúdo; evitar rolagem horizontal para ações e informações essenciais.
 - Garantir alvos de toque confortáveis e respeitar áreas seguras em elementos fixos.
+- Cabeçalho global fixo deve reorganizar seus controles em telas estreitas, permanecer legível e reservar espaço no fluxo para não cobrir conteúdo.

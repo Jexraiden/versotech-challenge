@@ -10,6 +10,7 @@ Cada incremento passa por **implementação → revisão adversarial → revisã
 | 04 | [INC-04 — Carrinho em sessão](./INC-04-session-cart.md) | Anterior aprovado |
 | 05 | [INC-05 — Checkout e pedidos transacionais](./INC-05-checkout-and-orders.md) | Anterior aprovado |
 | 06 | [INC-06 — Finalização e demonstração](./INC-06-polish-and-demo.md) | Anterior aprovado |
+| 07 | [INC-07 — Navegação global e feedback do carrinho](./INC-07-global-navigation-and-cart-feedback.md) | INC-06 implementado |
 
 ## Gates
 

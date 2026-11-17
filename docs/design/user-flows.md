@@ -4,22 +4,29 @@
 
 1. Autenticar usuário e identificar empresa.
 2. Acessar catálogo; pesquisar por nome, SKU ou EAN, filtrar por categoria e navegar pelas páginas.
-3. Abrir detalhes de um produto para consultar suas informações; para comprar, retornar à lista do catálogo.
+3. Abrir detalhes de um produto para consultar suas informações; usar `Catálogo` no cabeçalho para retornar à lista e comprar.
 4. Definir quantidade e adicionar diretamente pela lista.
-5. Permanecer no catálogo e visualizar barra fixa de resumo do carrinho.
+5. Usar a navegação superior global para acessar catálogo, busca, conta ou carrinho; ao adicionar um item, receber confirmação discreta.
 6. Abrir página dedicada do carrinho; editar/remover itens e conferir valores.
 7. Prosseguir para checkout de página única.
 8. Selecionar condição comercial disponível e confirmar.
 9. Receber confirmação com identificador do pedido.
 
-## Catálogo e barra fixa
+## Navegação global e catálogo
+
+- A barra superior fica fixa no topo durante a rolagem em todas as telas autenticadas e apresenta marca `Ecommerce B2B`, acesso ao catálogo, filtros de categoria e busca, menu do usuário e carrinho com badge de unidades. A tela de login não a apresenta.
+- Ao mudar de tela, campo de busca e seletor de categoria reiniciam. Enviar a busca abre o catálogo com os filtros submetidos aplicados; os campos do cabeçalho reiniciam após a navegação.
+- O menu do usuário mostra `Ver pedidos` e `Sair da conta`, nessa ordem, sem escurecer o fundo.
+- `Ver pedidos` abre a listagem paginada dos pedidos do usuário autenticado, sem filtros adicionais, limitada à identidade e empresa autenticadas.
+- A navegação e os controles reorganizam-se em telas pequenas sem rolagem horizontal.
+- A busca envia os termos e a categoria selecionada para a tela do catálogo.
 
 - Adicionar não redireciona.
 - A tela de detalhes do produto é informativa; a ação de adicionar ao carrinho permanece na lista do catálogo.
-- Barra fixa inferior aparece somente com carrinho não vazio; mostra total de unidades e subtotal calculado conforme regras disponíveis, com ação `Ver carrinho`.
+- O acesso ao carrinho na barra superior mostra o total de unidades em badge e abre a página dedicada.
+- O link `Catálogo` no cabeçalho é o caminho de volta às compras; não repetir links de retorno/continuação ao catálogo em outras telas.
 - Adicionar produto já existente incrementa a quantidade em vez de criar linha duplicada.
-- No mobile, a barra não deve encobrir conteúdo nem controles; reservar espaço inferior e respeitar safe areas.
-- Comunicar adição e erros com feedback discreto e acessível.
+- Comunicar adição bem-sucedida e erros com feedback discreto e acessível; sucesso não deve escurecer a página.
 
 ## Carrinho
 
@@ -37,7 +44,7 @@
 
 ## Pós-compra
 
-- Histórico de pedidos e detalhes é melhoria futura se houver tempo, fora dos critérios obrigatórios do MVP.
+- A listagem dos pedidos do usuário autenticado está disponível pelo menu da conta, sem filtros e com paginação.
 
 - Histórico: número, data, total e situação, conforme dados disponíveis.
 - Detalhes: itens, quantidades, valores, descontos, condição e status disponíveis.

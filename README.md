@@ -80,11 +80,10 @@ Não use `migrate:fresh`, `db:wipe` ou `down -v` em um banco com dados a preserv
 - [ADRs](docs/adr/README.md)
 - [Incrementos e gates](docs/implementation/README.md)
 - [Design e UX](docs/design/README.md)
-- [Roteiro e checklist da demo](docs/demo/INC-06-demo.md)
 
 ## Estado da implementação
 
-INC-01 a INC-06 estão registrados como implementados e aprovados. No INC-06, implementação, revisões, testes automatizados e critérios de UX/jornada foram concluídos. O commit manual do incremento ainda está pendente, conforme os gates descritos em [`docs/implementation/README.md`](docs/implementation/README.md).
+INC-01 a INC-06 estão registrados como implementados e aprovados. No INC-06, implementação, revisões, testes automatizados e critérios de UX/jornada foram concluídos. O INC-07 está especificado e aguardando aprovação para implementação; seus comportamentos propostos ainda não fazem parte da aplicação.
 
 ---
 
@@ -113,6 +112,7 @@ O escopo foi dividido em incrementos para tornar cada parte revisável:
 | Carrinho | Adição, atualização e remoção na sessão | INC-04 |
 | Checkout e pedidos | Condições de pagamento, crédito, estoque, transação e idempotência | INC-05 |
 | Finalização | UX, documentação, integração e demonstração | INC-06 |
+| Navegação global e feedback do carrinho | Cabeçalho fixo em telas autenticadas, busca global, menu de conta com pedidos paginados e feedback de inclusão | [INC-07](docs/implementation/INC-07-global-navigation-and-cart-feedback.md) |
 
 ## Tecnologias e arquitetura
 
@@ -264,10 +264,10 @@ O plano inicial cobria domingo, 15/11, a terça-feira, 17/11/2026. O resumo abai
 **Meta:** consolidar o caminho crítico e preparar a aplicação para ser executada e apresentada por alguém que acabou de receber o repositório.
 
 - [x] Concluir a fase de implementação do INC-06: UX, documentação, roteiro e checklist de demonstração.
-- [ ] Fazer revisão adversarial independente e tratar os achados conforme decisão do desenvolvedor.
+- [x] Fazer revisão adversarial independente e tratar os achados conforme decisão do desenvolvedor.
 - [x] Fazer revisão manual e executar a validação formal do INC-06, incluindo testes, typecheck/build e jornada ponta a ponta.
-- [ ] Registrar resultados, limitações e aprovação do incremento.
-- [ ] Realizar commit manual após aprovação.
+- [x] Registrar resultados, limitações e aprovação do incremento.
+- [x] Realizar commit manual após aprovação.
 
 O critério de entrega não é concluir toda melhoria imaginada, mas permitir demonstrar uma compra B2B correta e compreensível, do login à confirmação, explicando com clareza as limitações restantes.
 
