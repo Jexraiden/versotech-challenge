@@ -191,6 +191,22 @@
     color: #92400e;
 }
 
+.credit {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+    padding: 12px;
+    border-radius: 6px;
+    background: #f8faf9;
+    font-size: .9rem;
+}
+
+.credit strong {
+    white-space: nowrap;
+}
+
 .totals {
     margin-top: 18px;
 }

@@ -36,14 +36,16 @@ class CheckoutController extends Controller
             ->get()
             ->map(function (PaymentTerm $term) use ($cart, $availableCredit): array {
                 $surcharge = $this->percentageOf($cart['subtotal_cents'], (string) $term->surcharge_percent);
+                $termTotal = $cart['subtotal_cents'] + $surcharge;
                 $meetsMinimum = $cart['subtotal_cents'] >= (int) $term->minimum_amount_cents && $cart['subtotal_cents'] > 0;
-                $hasCredit = ! $term->is_credit || ($cart['subtotal_cents'] + $surcharge <= $availableCredit);
+                $hasCredit = ! $term->is_credit || $termTotal <= $availableCredit;
                 return [
                     'code' => $term->code,
                     'description' => $term->description,
                     'minimum_amount_cents' => (int) $term->minimum_amount_cents,
                     'surcharge_percent' => (string) $term->surcharge_percent,
                     'eligible' => $meetsMinimum && $hasCredit,
+                    'credit_shortfall_cents' => $meetsMinimum && ! $hasCredit ? $termTotal - $availableCredit : null,
                     'restriction' => ! $meetsMinimum
                         ? 'Subtotal abaixo do mínimo desta condição.'
                         : (! $hasCredit ? 'Crédito disponível insuficiente.' : null),
@@ -57,7 +59,8 @@ class CheckoutController extends Controller
                 'name' => $user->company->trade_name,
                 'city' => $user->company->city,
                 'state' => $user->company->state,
-                'is_blocked' => $user->company->is_blocked
+                'is_blocked' => $user->company->is_blocked,
+                'available_credit_cents' => $availableCredit,
             ],
             'paymentTerms' => $terms,
             'checkoutKey' => (string) Str::uuid(),

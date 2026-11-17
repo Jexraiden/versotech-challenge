@@ -27,12 +27,33 @@ class CheckoutTest extends TestCase
 
         $this->get(route('checkout.show'))->assertInertia(fn(Assert $page) => $page->component('Checkout/Index')
             ->where('company.name', 'Bom Preço')
+            ->where('company.available_credit_cents', $buyer->company->credit_limit_cents - $buyer->company->credit_used_cents)
             ->where('paymentTerms.0.eligible', true)
             ->has('checkoutKey'));
 
         $this->post(route('orders.store'), ['payment_term' => 'PIX', 'checkout_key' => '9cbf8c82-b2dd-4f8e-83f1-24dcb5d89967'])
             ->assertSessionHasErrors(['zipcode', 'state', 'city', 'district', 'address']);
         $this->assertDatabaseCount('orders', 0);
+    }
+
+    public function test_checkout_reports_credit_shortfall_after_boleto_surcharge(): void
+    {
+        $buyer = User::where('email', 'bompreco@example.test')->firstOrFail();
+        $subtotalCents = 307;
+        DB::table('payment_terms')->where('code', 'BOL2856')->update(['minimum_amount_cents' => 1]);
+        Company::whereKey($buyer->company_id)->update([
+            'credit_limit_cents' => (int) $buyer->company->credit_used_cents + $subtotalCents,
+        ]);
+        $buyer->unsetRelation('company');
+        $this->actingAs($buyer)->post(route('cart.add', 1001), ['quantity' => 1])->assertRedirect();
+
+        $this->get(route('checkout.show'))->assertInertia(fn(Assert $page) => $page->component('Checkout/Index')
+            ->where('cart.subtotal_cents', $subtotalCents)
+            ->where('company.available_credit_cents', $subtotalCents)
+            ->where('paymentTerms.1.code', 'BOL2856')
+            ->where('paymentTerms.1.eligible', false)
+            ->where('paymentTerms.1.credit_shortfall_cents', 8)
+            ->where('paymentTerms.2.credit_shortfall_cents', null));
     }
 
     public function test_pix_persists_order_and_delivery_snapshot_without_consuming_credit(): void
