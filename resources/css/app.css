@@ -8,10 +8,28 @@
     --color-border: #6b7280;
 }
 
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 body {
     min-width: 320px;
     min-height: 100vh;
     margin: 0;
+}
+
+:where(a, button, input, select, textarea):focus-visible {
+    outline: 2px solid var(--color-action);
+    outline-offset: 3px;
+}
+
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+    cursor: not-allowed;
 }
 
 h1 {

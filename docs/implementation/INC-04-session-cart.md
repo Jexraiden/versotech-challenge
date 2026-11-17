@@ -20,11 +20,11 @@ Carrinho persiste na navegação da sessão; mudança de quantidade recalcula fa
 
 ### Critérios de aceite de UI/UX
 
-- [ ] A ação funcional de adicionar pela lista (critério transferido do INC-03) mantém o usuário no catálogo, consolida produto repetido e fornece feedback acessível; a barra inferior aparece somente com itens e mostra unidades, subtotal e ação para abrir o carrinho.
-- [ ] Barra fixa não cobre conteúdo/controles em smartphone e respeita áreas seguras; reservar espaço inferior apropriado.
-- [ ] Página dedicada permite editar/remover, mostra resumo financeiro recalculado pelo backend e oferece retorno ao catálogo preservando o carrinho.
-- [ ] Estado vazio orienta retorno ao catálogo; erros/alterações comerciais são compreensíveis e não deixam totais inconsistentes.
-- [ ] Layout desktop separa itens e resumo; mobile empilha conteúdo com ação principal visível.
+- [x] A ação funcional de adicionar pela lista (critério transferido do INC-03) mantém o usuário no catálogo, consolida produto repetido e fornece feedback acessível; a barra inferior aparece somente com itens e mostra unidades, subtotal e ação para abrir o carrinho.
+- [x] Barra fixa não cobre conteúdo/controles em smartphone e respeita áreas seguras; reservar espaço inferior apropriado.
+- [x] Página dedicada permite editar/remover, mostra resumo financeiro recalculado pelo backend e oferece retorno ao catálogo preservando o carrinho.
+- [x] Estado vazio orienta retorno ao catálogo; erros/alterações comerciais são compreensíveis e não deixam totais inconsistentes.
+- [x] Layout desktop separa itens e resumo; mobile empilha conteúdo com ação principal visível.
 
 ## Fora do escopo
 

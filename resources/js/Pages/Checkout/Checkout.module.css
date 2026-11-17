@@ -148,11 +148,11 @@
     font-size: .9rem;
 }
 
-.term {
-    display: flex !important;
-    grid-template-columns: auto 1fr;
+.summary .term {
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr);
     align-items: start;
-    gap: 10px !important;
+    gap: 12px;
     padding: 12px;
     border: 1px solid #6b7280;
     border-radius: 6px;
@@ -160,12 +160,20 @@
 }
 
 .term input {
-    margin-top: 3px;
+    flex: 0 0 20px;
+    width: 20px;
+    min-width: 20px;
+    height: 20px;
+    min-height: 20px;
+    margin: 2px 0 0;
+    padding: 0;
+    border: 0;
     accent-color: var(--color-action);
 }
 
 .term span {
     display: grid;
+    min-width: 0;
     gap: 4px;
 }
 
@@ -204,11 +212,11 @@
     font-size: .88rem;
 }
 
-.error {
+.card .error {
     padding: 12px 14px;
     border-radius: 6px;
     background: #fef2f2;
-    color: #b91c1c !important;
+    color: #b91c1c;
 }
 
 @media (max-width: 760px) {

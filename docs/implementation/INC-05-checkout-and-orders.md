@@ -47,7 +47,7 @@ Priorizar race conditions, deadlocks, colisão de checkout_key, reenvio com payl
 
 ### Limitação conhecida de validação
 
-A suíte PHPUnit padrão usa SQLite em memória e não comprova a contenção dos locks (`lockForUpdate`) no PostgreSQL. Os testes atuais cobrem regras e reenvios sequenciais, mas a disputa simultânea por estoque, crédito ou `checkout_key` permanece **não verificada**. Um teste confiável dessa garantia exigiria uma suíte de integração PostgreSQL com processos/conexões independentes; essa validação foi adiada e deve ser apresentada como limitação, não como requisito atendido.
+A suíte PHPUnit padrão executada no INC-05 usou SQLite em memória e não comprovou a contenção dos locks (`lockForUpdate`) no PostgreSQL. Naquele momento, a disputa simultânea por estoque, crédito ou `checkout_key` permanecia **não verificada**. No INC-06, o desenvolvedor informou que executou validação manual adicional da concorrência no PostgreSQL; os detalhes disponíveis estão no registro do INC-06. Essa informação posterior não altera o resultado histórico da suíte do INC-05.
 
 ## Registro da execução
 
@@ -55,5 +55,5 @@ A suíte PHPUnit padrão usa SQLite em memória e não comprova a contenção do
 **Achados da revisão:** um achado Low sobre campos de formulário excessivamente altos foi corrigido. O desenvolvedor dispensou nova revisão adversarial após a correção.  
 **Testes e resultados:** `docker compose run --rm --no-deps laravel.test php artisan test` — 57 testes passaram (578 assertions), em 37,82 s. Uma tentativa anterior com `--no-build` não foi aceita pela versão instalada do Docker Compose (`unknown flag: --no-build`).  
 **Verificações manuais:** o desenvolvedor confirmou o funcionamento da tela e a realização das verificações manuais.  
-**Pendências / decisões:** concorrência real em PostgreSQL permanece não verificada; limitação reconhecida pelo desenvolvedor. Commit ainda não realizado; aguarda ação manual do desenvolvedor.  
+**Pendências / decisões:** na conclusão do INC-05, a concorrência real em PostgreSQL permanecia não verificada. O desenvolvedor informou validação manual posterior no INC-06; ver registro desse incremento. Commit ainda não realizado; aguarda ação manual do desenvolvedor.
 **Aprovação:** aprovada explicitamente pelo desenvolvedor em 16/11/2026. **Commit:** pendente.

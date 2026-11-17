@@ -29,16 +29,16 @@ export default function Index({ cart, companyName, flash }: Props) {
             preserveScroll: true,
             onStart: () => setBusy(true),
             onFinish: () => setBusy(false),
-            onError: errors => setError(errors.quantity ?? 'Não foi possível atualizar a quantidade.'),
+            onError: errors => setError(errors.quantity ?? 'Não foi possível atualizar a quantidade. Confira o estoque e tente novamente.'),
         });
     };
     const remove = (item: CartLine) => {
         setError('');
-        router.delete(`/cart/items/${item.id}`, { preserveScroll: true, onStart: () => setBusy(true), onFinish: () => setBusy(false) });
+        router.delete(`/cart/items/${item.id}`, { preserveScroll: true, onStart: () => setBusy(true), onFinish: () => setBusy(false), onError: () => setError('Não foi possível remover este item. Atualize a página e tente novamente.') });
     };
 
     return <main className={pageChrome.pageShell}>
-        <div className={styles.cartPage}>
+        <div className={styles.cartPage} aria-busy={busy}>
             <header className={styles.header}>
                 <div><p className={pageChrome.eyebrow}>Carrinho · {companyName}</p><h1>Seu pedido</h1><p>Confira os itens e os valores atuais para sua empresa.</p></div>
                 <Link className={styles.continueShopping} href="/catalog">Continuar comprando</Link>
@@ -60,7 +60,7 @@ export default function Index({ cart, companyName, flash }: Props) {
                         <div className={styles.controls}>
                             {(item.valid || item.can_update) && <form onSubmit={event => update(event, item)}>
                                 <label htmlFor={`quantity-${item.id}`}>Quantidade</label>
-                                <input id={`quantity-${item.id}`} type="number" min="1" max={item.stock_quantity} value={quantities[item.id] ?? item.quantity} onChange={event => setQuantities({ ...quantities, [item.id]: Math.max(1, Number(event.target.value)) })} />
+                                <input id={`quantity-${item.id}`} type="number" min="1" step="1" max={item.stock_quantity ?? item.quantity} value={quantities[item.id] ?? item.quantity} onChange={event => { const parsed = Number(event.target.value); setQuantities({ ...quantities, [item.id]: Number.isFinite(parsed) ? Math.max(1, parsed) : 1 }); }} />
                                 <button type="submit" disabled={busy}>Atualizar</button>
                             </form>}
                             {item.valid && <strong>{formatPrice(item.line_total_cents!)}</strong>}
